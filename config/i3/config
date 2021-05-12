@@ -181,23 +181,24 @@ bindsym Print exec "escrotum -sC"
 # Set touchpad gestures
 exec "libinput-gestures-setup start"
 
-# Open dunst (notifications)
-exec "dunst"
-
 # Keyboard layout
 exec "setxkbmap us,ir -option grp:alt_shift_toggle"
 
+# Map caps-lock to control
+exec_always --no-startup-id xmodmap $HOME/.Xmodmap
+
+# Open dunst (notifications)
+exec_always "dunst"
+
 # Open polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always $HOME/.config/polybar/launch.sh
 
 # Open Compton
-exec_always --no-startup-id picom --config $HOME/.config/picom.conf
+exec_always picom --config $HOME/.config/picom.conf
 
 # Set wallpaper
 exec_always feh --bg-fill $HOME/Pictures/wp.jpg
 
-# Map caps-lock to control
-exec_always --no-startup-id xmodmap $HOME/.Xmodmap
 
 # Set xrandr layout
 exec xrandr --output eDP-1 --primary --mode 1366x768 --pos 277x1080 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal
