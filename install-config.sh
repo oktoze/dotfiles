@@ -22,7 +22,7 @@ rm -r ~/.config/i3
 ln -s $SCRIPT_PATH/config/i3 ~/.config/i3
 
 rm -r ~/.config/polybar
-ln -s $SCRIPT_PATH/config/polybar ~/.config/i3
+ln -s $SCRIPT_PATH/config/polybar ~/.config/polybar
 
 rm -r ~/.config/dunst
 ln -s $SCRIPT_PATH/config/dunst ~/.config/dunst
