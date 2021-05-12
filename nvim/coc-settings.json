@@ -1,0 +1,9 @@
+{
+    "pyright.enable": true,
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.autoSearchPaths": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.liniting.enabled": true,
+    "python.completion.snipptedSupport": true,
+    "pyright.organizeimports.provider": "pyright"
+}
