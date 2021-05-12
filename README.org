@@ -1,0 +1,16 @@
+* Kamyab dotfiles
+
+** Components
+- 'doom.d/' Configuration for [[https://github.com/hlissner/doom-emacs][Doom]], an awesome distribution of Emacs
+- 'Xmodmap' Configuration for xmodmap, an X keymap modifier
+- 'zshrc' Configuration for [[https://www.zsh.org/][Zsh]]
+- 'config/dunst' Configuration for [[https://dunst-project.org/][dunst]], a notification daemon
+- 'config/i3' Configuration for [[https://i3wm.org/][i3wm]], a tiling window manager
+- 'config/kitty' Configuration for [[https://sw.kovidgoyal.net/kitty/][kitty]], a terminal emulator
+- 'config/nvim' Configuration for [[https://neovim.io/][neovim]], a better vim
+- 'config/polybar' Configuration for [[https://github.com/polybar/polybar][polybar]], an status-bar
+- 'config/libinput-gestures.conf' Configuration for [[https://github.com/bulletmark/libinput-gestures][libinput-gestures]], a touchpad gestures utility
+- 'config/picom.conf'  Configuration for [[https://github.com/yshui/picom][picom]], an X11 compositor
+
+** Credits
+My polybar configuration is a modification of the awesome [[https://github.com/adi1090x/polybar-themes][polybar-themes]], by [[https://github.com/adi1090x][Aditya Shakya]].
