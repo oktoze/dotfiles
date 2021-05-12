@@ -188,7 +188,7 @@ exec "setxkbmap us,ir -option grp:alt_shift_toggle"
 exec_always --no-startup-id xmodmap $HOME/.Xmodmap
 
 # Open dunst (notifications)
-exec_always "dunst"
+exec_always dunst
 
 # Open polybar
 exec_always $HOME/.config/polybar/launch.sh
