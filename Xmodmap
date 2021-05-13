@@ -1,4 +1,3 @@
-# Making Caps Lock act as another Ctrl key
 clear lock
 clear control
 keycode 66 = Control_L

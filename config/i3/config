@@ -182,7 +182,7 @@ bindsym Print exec "escrotum -sC"
 exec "libinput-gestures-setup start"
 
 # Keyboard layout
-exec "setxkbmap us,ir -option grp:alt_shift_toggle"
+exec_always "setxkbmap us,ir -option grp:alt_shift_toggle"
 
 # Map caps-lock to control
 exec_always --no-startup-id xmodmap $HOME/.Xmodmap
