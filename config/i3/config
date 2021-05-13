@@ -175,8 +175,13 @@ assign [class="Clementine"] $ws6
 assign [class="vlc"] $ws6
 assign [class="TelegramDesktop"] $ws7
 
-# Set screenshot keybinding
+# Setting some keybindings
+# For screenshoting, I use escrotum (wtf?) and volume control is done
+# using Alsa
 bindsym Print exec "escrotum -sC"
+bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 5+ unmute"
+bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 5- unmute"
+bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
 
 # Set touchpad gestures
 exec "libinput-gestures-setup start"
@@ -198,7 +203,6 @@ exec_always picom --config $HOME/.config/picom.conf
 
 # Set wallpaper
 exec_always feh --bg-fill $HOME/Pictures/wp.jpg
-
 
 # Set xrandr layout
 exec xrandr --output eDP-1 --primary --mode 1366x768 --pos 277x1080 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal
