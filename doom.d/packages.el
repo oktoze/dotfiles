@@ -50,4 +50,4 @@
 ;(unpin! t)
 
 (package! python-black)
-(package! pretty-mode)
+(package! org-bullets)

@@ -85,8 +85,6 @@
 
 (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
 
-;; (add-hook! 'vterm-mode-hook 'evil-emacs-state)
-
 ;; company settings
 (setq company-dabbrev-downcase 0)
 (setq company-idle-delay 0)
@@ -96,3 +94,12 @@
 (define-key evil-visual-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
 (define-key evil-visual-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
+
+;; Org-mode config
+(defun org-mode-config-hook ()
+  (org-bullets-mode)
+  (font-lock-add-keywords 'org-mode
+                          '(("^ *\\([-]\\) "
+                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•")))))))
+(setq org-ellipsis " ▼")
+(add-hook 'org-mode-hook 'org-mode-config-hook)
