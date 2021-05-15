@@ -95,6 +95,24 @@
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
 (define-key evil-visual-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
 
+;; vim-surrond config
+(setq-default evil-surround-pairs-alist
+  '((?\( . ("(" . ")"))
+    (?\[ . ("[" . "]"))
+    (?\{ . ("{" . "}"))
+
+    (?\) . ("(" . ")"))
+    (?\] . ("[" . "]"))
+    (?\} . ("{" . "}"))
+
+    (?# . ("#{" . "}"))
+    (?b . ("(" . ")"))
+    (?B . ("{" . "}"))
+    (?> . ("<" . ">"))
+    (?t . evil-surround-read-tag)
+    (?< . evil-surround-read-tag)
+    (?f . evil-surround-function)))
+
 ;; Org-mode config
 (defun org-mode-config-hook ()
   (org-bullets-mode)

@@ -177,11 +177,13 @@ assign [class="TelegramDesktop"] $ws7
 
 # Setting some keybindings
 # For screenshoting, I use escrotum (wtf?) and volume control is done
-# using Alsa
+# using Alsa. Enabling and disabling touchpad needs xinput and rg
 bindsym Print exec "escrotum -sC"
 bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 5+ unmute"
 bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 5- unmute"
 bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
+bindsym $mod+t exec "xinput list | grep -i touchpad | rg "id=[0-9]+" -o | rg "[0-9+]" -o | xargs xinput disable"
+bindsym $mod+T exec "xinput list | grep -i touchpad | rg "id=[0-9]+" -o | rg "[0-9+]" -o | xargs xinput enable"
 
 # Set touchpad gestures
 exec "libinput-gestures-setup start"
@@ -190,7 +192,7 @@ exec "libinput-gestures-setup start"
 exec_always "setxkbmap us,ir -option grp:alt_shift_toggle"
 
 # Map caps-lock to control
-exec_always --no-startup-id xmodmap $HOME/.Xmodmap
+exec xmodmap $HOME/.Xmodmap
 
 # Open dunst (notifications)
 exec_always dunst
