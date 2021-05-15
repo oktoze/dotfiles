@@ -25,7 +25,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-vibrant)
+(setq doom-theme 'doom-horizon)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -90,6 +90,7 @@
 (setq company-idle-delay 0)
 
 ;; vim incremet/decrement
+(define-key evil-insert-state-map (kbd "C-j") 'evil-normal-state)
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-visual-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
@@ -114,10 +115,18 @@
     (?f . evil-surround-function)))
 
 ;; Org-mode config
-(defun org-mode-config-hook ()
-  (org-bullets-mode)
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•")))))))
-(setq org-ellipsis " ▼")
-(add-hook 'org-mode-hook 'org-mode-config-hook)
+;; (defun org-mode-config-hook ()
+;;   (org-bullets-mode)
+;;   (font-lock-add-keywords 'org-mode
+;;                           '(("^ *\\([-]\\) "
+;;                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•")))))))
+;; (setq org-ellipsis " ▼")
+;; (add-hook 'org-mode-hook 'org-mode-config-hook)
+(use-package org
+  :hook (org-mode . org-bullets-mode)
+  :config
+  (setq org-ellipsis " ▼")
+  (setq org-agenda-start-with-log-mode t)
+  (setq org-log-done 'time)
+  (setq org-log-into-drawer t)
+  (setq org-agenda-files '("~/Org/tasks.org")))
