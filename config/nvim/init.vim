@@ -32,5 +32,6 @@ endfunction
 
 " Keyboard mappings
 inoremap <C-j> <ESC>
+xnoremap <C-j> <ESC>
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 xnoremap <C-c> "+y "

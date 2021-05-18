@@ -115,13 +115,6 @@
     (?f . evil-surround-function)))
 
 ;; Org-mode config
-;; (defun org-mode-config-hook ()
-;;   (org-bullets-mode)
-;;   (font-lock-add-keywords 'org-mode
-;;                           '(("^ *\\([-]\\) "
-;;                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•")))))))
-;; (setq org-ellipsis " ▼")
-;; (add-hook 'org-mode-hook 'org-mode-config-hook)
 (use-package org
   :hook (org-mode . org-bullets-mode)
   :config
@@ -130,3 +123,13 @@
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
   (setq org-agenda-files '("~/Org/tasks.org")))
+
+;; Company config
+(use-package company
+  :config
+  (setq company-backends '(company-files company-capf company-yasnippet company-keywords)))
+
+;; Strange bug
+(setq xterm-mouse-mode nil)
+
+(modify-syntax-entry ?_ "w")

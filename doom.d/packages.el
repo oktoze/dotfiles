@@ -51,4 +51,3 @@
 
 (package! python-black)
 (package! org-bullets)
-(package! pdf-tools)
