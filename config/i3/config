@@ -178,6 +178,7 @@ assign [class="TelegramDesktop"] $ws7
 # Setting some keybindings
 # For screenshoting, I use escrotum (wtf?) and volume control is done
 # using Alsa. Enabling and disabling touchpad needs xinput and rg
+bindsym $mod+Ctrl+l exec "~/.config/i3/i3lock.sh"
 bindsym Print exec "escrotum -sC"
 bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 5+ unmute"
 bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 5- unmute"
