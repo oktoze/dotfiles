@@ -117,19 +117,30 @@
 ;; Org-mode config
 (use-package org
   :hook (org-mode . org-bullets-mode)
+  :hook (org-mode lambda () (display-line-numbers-mode 0) (hl-line-mode 0))
   :config
   (setq org-ellipsis " ▼")
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
-  (setq org-agenda-files '("~/Org/tasks.org")))
+  (setq org-agenda-files '("~/Org/Tasks")))
+
+(use-package visual-fill-column
+  :defer
+  :hook (org-mode lambda ()
+                  (setq visual-fill-column-width 100
+                        visual-fill-column-center-text t)
+                  (visual-fill-column-mode 1)
+                  ))
+
+
 
 ;; Company config
 (use-package company
   :config
   (setq company-backends '(company-files company-capf company-yasnippet company-keywords)))
 
-;; Strange bug
-(setq xterm-mouse-mode nil)
+;; lsp-mode config
+(setq lsp-file-watch-threshold 2000)
 
 (modify-syntax-entry ?_ "w")
