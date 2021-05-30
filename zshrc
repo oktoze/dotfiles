@@ -38,3 +38,7 @@ export PATH=$PATH:$SPARK_HOME/bin
 export PATH=$PATH:$JAVA_HOME/jre/bin
 export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
 export PYSPARK_PYTHON=python
+
+# Go
+export GOPATH=~/Projects/Go
+export PATH=$PATH:$GOPATH/bin/

@@ -19,7 +19,7 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font "Vazir Code 16"
+(setq doom-font "Hack 12"
       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
@@ -134,13 +134,12 @@
 ;; Company config
 (use-package company
   :config
-  (setq company-backends '(company-files company-capf company-yasnippet company-keywords))
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 1)
   (setq company-async-wait 0.01)
-  (setq company-async-timeout 1))
-
+  (setq company-async-timeout 1)
+  (setq company-tooltip-limit 5))
 
 ;; lsp-mode config
 (setq lsp-file-watch-threshold 2000)
