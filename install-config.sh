@@ -26,3 +26,6 @@ ln -s $SCRIPT_PATH/config/polybar ~/.config/polybar
 
 rm -r ~/.config/dunst
 ln -s $SCRIPT_PATH/config/dunst ~/.config/dunst
+
+rm -r ~/.config/kitty
+ln -s $SCRIPT_PATH/kitty ~/.config/kitty

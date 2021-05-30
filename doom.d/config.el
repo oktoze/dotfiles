@@ -85,8 +85,9 @@
 
 (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
 
-;; vim incremet/decrement
+;; evil config
 (define-key evil-insert-state-map (kbd "C-j") 'evil-normal-state)
+(define-key evil-visual-state-map (kbd "C-j") 'evil-normal-state)
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-visual-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
@@ -130,13 +131,12 @@
                   ))
 
 
-
 ;; Company config
 (use-package company
   :config
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1)
+  (setq company-minimum-prefix-length 0)
   (setq company-async-wait 0.01)
   (setq company-async-timeout 1)
   (setq company-tooltip-limit 5))
