@@ -90,7 +90,7 @@
 (define-key evil-visual-state-map (kbd "C-j") 'evil-normal-state)
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
-(define-key evil-visual-state-map (kbd "C-s") (lambda () (interactive) (evil-ex "'<,'>norm ")))
+(define-key evil-visual-state-map (kbd "C-i") (lambda () (interactive) (evil-ex "'<,'>norm I")))
 
 ;; vim-surrond config
 (setq-default evil-surround-pairs-alist
