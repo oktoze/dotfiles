@@ -89,9 +89,8 @@
 (define-key evil-insert-state-map (kbd "C-j") 'evil-normal-state)
 (define-key evil-visual-state-map (kbd "C-j") 'evil-normal-state)
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-(define-key evil-visual-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
-(define-key evil-visual-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
+(define-key evil-visual-state-map (kbd "C-s") (lambda () (interactive) (evil-ex "'<,'>norm ")))
 
 ;; vim-surrond config
 (setq-default evil-surround-pairs-alist
@@ -136,7 +135,7 @@
   :config
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 0)
+  (setq company-minimum-prefix-length 1)
   (setq company-async-wait 0.01)
   (setq company-async-timeout 1)
   (setq company-tooltip-limit 5))

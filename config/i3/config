@@ -163,8 +163,8 @@ bindsym mod1+Tab workspace back_and_forth
 
 # Gaps config
 smart_gaps on
-gaps inner 8
-gaps outer 5
+gaps inner 3
+gaps outer 3
 
 # Assigning apps to workspaces
 # assign [class="kitty"] $ws1

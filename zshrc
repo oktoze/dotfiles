@@ -42,3 +42,6 @@ export PYSPARK_PYTHON=python
 # Go
 export GOPATH=~/Projects/Go
 export PATH=$PATH:$GOPATH/bin/
+
+# PostgreSQL
+export PGDATA=/var/lib/postgres/data/
