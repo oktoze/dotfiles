@@ -211,7 +211,7 @@ exec_always feh --bg-fill $HOME/Pictures/wp.jpg
 exec xrandr --output eDP-1 --primary --mode 1366x768 --pos 277x1080 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal
 
 # Start apps
-exec "kitty zsh -c 'cowsay Hi! | lolcat; cat ~/todo | cowsay | lolcat; zsh'"
+exec "kitty zsh -c 'cowsay Hi! | lolcat; cat ~/.todo | cowsay | lolcat; zsh'"
 exec "kitty"
 exec "emacs"
 

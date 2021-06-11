@@ -35,7 +35,8 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-(setq lsp-file-watch-threshold 5000)
+;; make underlines a part of 'word'
+(modify-syntax-entry ?_ "w")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -53,11 +54,6 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-
-;; set black formatter
-(use-package! python-black
-  :demand t
-  :after python)
 
 ;; Feel free to throw your own personal keybindings here
 (map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
@@ -90,7 +86,21 @@
 (define-key evil-visual-state-map (kbd "C-j") 'evil-normal-state)
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
-(define-key evil-visual-state-map (kbd "C-i") (lambda () (interactive) (evil-ex "'<,'>norm I")))
+
+(defun evil-insert-into-lines ()
+  (interactive)
+  (evil-ex "'<,'>norm I"))
+(defun evil-append-to-lines ()
+  (interactive)
+  (evil-ex "'<,'>norm A"))
+(defun evil-go-to-norm-exec ()
+  (interactive)
+  (evil-ex "'<,'>norm "))
+
+(define-key input-decode-map (kbd "C-i") (kbd "H-i"))
+(define-key evil-visual-state-map (kbd "H-i") 'evil-insert-into-lines)
+(define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
+(define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
 
 ;; vim-surrond config
 (setq-default evil-surround-pairs-alist
@@ -141,6 +151,16 @@
   (setq company-tooltip-limit 5))
 
 ;; lsp-mode config
-(setq lsp-file-watch-threshold 2000)
+(use-package lsp-mode
+  :config
+  (setq lsp-file-watch-threshold 2000))
 
-(modify-syntax-entry ?_ "w")
+;; set black formatter
+(use-package python-black
+  :demand t
+  :after python
+  :hook (python-mode . python-black-on-save-mode-enable-dwim))
+
+(use-package python-mode
+  :config
+  (require dap-python))

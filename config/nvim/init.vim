@@ -21,6 +21,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-commentary'
 Plug 'easymotion/vim-easymotion'
+Plug 'kien/ctrlp.vim'
 call plug#end()
 
 
@@ -35,5 +36,5 @@ inoremap <C-j> <ESC>
 xnoremap <C-j> <ESC>
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 xnoremap <C-c> "+y "
-xnoremap <C-i> :norm I
+xnoremap <C-i> :norm I 
 xnoremap <C-a> :norm A
