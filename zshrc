@@ -42,6 +42,7 @@ export PYSPARK_PYTHON=python
 # Go
 export GOPATH=~/Projects/Go
 export PATH=$PATH:$GOPATH/bin/
+export GO11MODULE=on
 
 # Rust
 export PATH=$PATH:~/.cargo/bin/

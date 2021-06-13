@@ -185,6 +185,7 @@ bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 5- unmute"
 bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
 bindsym $mod+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0-9+]' -o | xargs xinput disable"
 bindsym $mod+shift+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0-9+]' -o | xargs xinput enable"
+bindsym $mod+c exec "copyq show"
 
 # Set touchpad gestures
 exec "libinput-gestures-setup start"
@@ -217,3 +218,4 @@ exec "emacs"
 
 # Set floating apps
 for_window [class="Nm-connection-editor"] floating enable
+for_window [class="copyq"] floating enable

@@ -96,11 +96,15 @@
 (defun evil-go-to-norm-exec ()
   (interactive)
   (evil-ex "'<,'>norm "))
+(defun evil-surrond-word ()
+  (interactive)
+  (evil-ex "norm viwS"))
 
 (define-key input-decode-map (kbd "C-i") (kbd "H-i"))
 (define-key evil-visual-state-map (kbd "H-i") 'evil-insert-into-lines)
 (define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
 (define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
+(define-key evil-normal-state-map (kbd "\"") 'evil-surrond-word)
 
 ;; vim-surrond config
 (setq-default evil-surround-pairs-alist
@@ -161,6 +165,4 @@
   :after python
   :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
-(use-package python-mode
-  :config
-  (require dap-python))
+(add-hook 'before-save-hook 'gofmt-before-save)
