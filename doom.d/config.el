@@ -96,15 +96,15 @@
 (defun evil-go-to-norm-exec ()
   (interactive)
   (evil-ex "'<,'>norm "))
-(defun evil-surrond-word ()
+(defun evil-surround-word ()
   (interactive)
-  (evil-ex "norm viwS"))
+  (execute-kbd-macro (concat "viwS" (char-to-string (read-char)))))
 
 (define-key input-decode-map (kbd "C-i") (kbd "H-i"))
 (define-key evil-visual-state-map (kbd "H-i") 'evil-insert-into-lines)
 (define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
 (define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
-(define-key evil-normal-state-map (kbd "\"") 'evil-surrond-word)
+(define-key evil-normal-state-map (kbd "\"")  'evil-surround-word)
 
 ;; vim-surrond config
 (setq-default evil-surround-pairs-alist
