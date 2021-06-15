@@ -52,3 +52,4 @@
 (package! python-black)
 (package! org-bullets)
 (package! dap-mode)
+(package! key-chord)

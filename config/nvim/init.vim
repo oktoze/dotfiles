@@ -32,8 +32,8 @@ function! ExecuteMacroOverVisualRange()
 endfunction
 
 " Keyboard mappings
-inoremap <C-j> <ESC>
-xnoremap <C-j> <ESC>
+inoremap jk <ESC>
+xnoremap jk <ESC>
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 xnoremap <C-c> "+y "
 xnoremap <C-i> :norm I 

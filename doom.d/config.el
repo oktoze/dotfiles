@@ -77,34 +77,9 @@
 ;;       :desc "hide element" "c" #'yafolding-hide-element
 ;;       :desc "toggle element" "t" #'yafolding-toggle-element))
 
-(setq highlight-indent-guides-method `bitmap)
+(setq highlight-indent-guides-method 'bitmap)
 
 (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-
-;; evil config
-(define-key evil-insert-state-map (kbd "C-j") 'evil-normal-state)
-(define-key evil-visual-state-map (kbd "C-j") 'evil-normal-state)
-(define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-(define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
-
-(defun evil-insert-into-lines ()
-  (interactive)
-  (evil-ex "'<,'>norm I"))
-(defun evil-append-to-lines ()
-  (interactive)
-  (evil-ex "'<,'>norm A"))
-(defun evil-go-to-norm-exec ()
-  (interactive)
-  (evil-ex "'<,'>norm "))
-(defun evil-surround-word ()
-  (interactive)
-  (execute-kbd-macro (concat "viwS" (char-to-string (read-char)))))
-
-(define-key input-decode-map (kbd "C-i") (kbd "H-i"))
-(define-key evil-visual-state-map (kbd "H-i") 'evil-insert-into-lines)
-(define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
-(define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
-(define-key evil-normal-state-map (kbd "\"")  'evil-surround-word)
 
 ;; vim-surrond config
 (setq-default evil-surround-pairs-alist
@@ -165,4 +140,34 @@
   :after python
   :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
+(use-package key-chord
+  :config
+  (setq key-chord-two-keys-delay 0.005))
+(key-chord-mode 1)
+
 (add-hook 'before-save-hook 'gofmt-before-save)
+
+;; evil config
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+(define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
+
+(defun evil-insert-into-lines ()
+  (interactive)
+  (evil-ex "'<,'>norm I"))
+(defun evil-append-to-lines ()
+  (interactive)
+  (evil-ex "'<,'>norm A"))
+(defun evil-go-to-norm-exec ()
+  (interactive)
+  (evil-ex "'<,'>norm "))
+(defun evil-surround-word ()
+  (interactive)
+  (execute-kbd-macro (concat "viwS" (char-to-string (read-char)))))
+
+(define-key input-decode-map (kbd "C-i") (kbd "H-i"))
+(define-key evil-visual-state-map (kbd "H-i") 'evil-insert-into-lines)
+(define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
+(define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
+(define-key evil-normal-state-map (kbd "\"")  'evil-surround-word)

@@ -215,6 +215,7 @@ exec xrandr --output eDP-1 --primary --mode 1366x768 --pos 277x1080 --rotate nor
 exec "kitty zsh -c 'cowsay Hi! | lolcat; cat ~/.todo | cowsay | lolcat; zsh'"
 exec "kitty"
 exec "emacs"
+exec "copyq"
 
 # Set floating apps
 for_window [class="Nm-connection-editor"] floating enable
