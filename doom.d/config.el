@@ -118,9 +118,7 @@
   (setq highlight-indent-guides-method 'bitmap))
 
 ;; key-chord config
-(use-package key-chord
-  :config
-  (setq key-chord-two-keys-delay 0.005))
+(use-package key-chord)
 (key-chord-mode 1)
 
 (use-package evil-textobj-line)
@@ -139,15 +137,10 @@
 ;; Evil keymaps
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
 
-(defun evil-insert-into-lines ()
-  (interactive)
-  (evil-ex "'<,'>norm I"))
-(defun evil-append-to-lines ()
-  (interactive)
-  (evil-ex "'<,'>norm A"))
 (defun evil-go-to-norm-exec ()
   (interactive)
   (evil-ex "'<,'>norm "))
@@ -155,11 +148,13 @@
   (interactive)
   (execute-kbd-macro (concat "viwS" (char-to-string (read-char)))))
 
-(define-key input-decode-map (kbd "C-i") (kbd "H-i"))
-(define-key evil-visual-state-map (kbd "H-i") 'evil-insert-into-lines)
-(define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
 (define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
 (define-key evil-normal-state-map (kbd "\"")  'evil-surround-word)
+
+;; multiple cursors keybindings
+(define-key input-decode-map (kbd "C-i") (kbd "H-i"))
+(define-key evil-visual-state-map (kbd "H-i") 'mc/edit-beginnings-of-lines)
+(define-key evil-visual-state-map (kbd "C-a") 'mc/edit-ends-of-lines)
 
 ;; Avy keymaps
 (map! :leader
