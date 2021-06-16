@@ -167,13 +167,16 @@ gaps inner 3
 gaps outer 3
 
 # Assigning apps to workspaces
-# assign [class="kitty"] $ws1
 assign [class="Emacs"] $ws2
 assign [class="firefox"] $ws3
 assign [class="dolphin"] $ws4
 assign [class="Clementine"] $ws6
 assign [class="vlc"] $ws6
 assign [class="TelegramDesktop"] $ws7
+
+# Set floating apps
+for_window [class="Nm-connection-editor"] floating enable
+for_window [class="copyq"] floating enable
 
 # Setting some keybindings
 # For screenshoting, I use escrotum (wtf?) and volume control is done
@@ -187,36 +190,14 @@ bindsym $mod+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0
 bindsym $mod+shift+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0-9+]' -o | xargs xinput enable"
 bindsym $mod+c exec "copyq show"
 
-# Set touchpad gestures
-exec "libinput-gestures-setup start"
-
-# Keyboard layout
-exec "setxkbmap us,ir -option grp:alt_shift_toggle"
-
-# Map caps-lock to control
-exec xmodmap $HOME/.Xmodmap
-
-# Open dunst (notifications)
-exec_always dunst
-
-# Open polybar
-exec_always $HOME/.config/polybar/launch.sh
-
-# Open Compton
-exec_always picom --config $HOME/.config/picom.conf
-
-# Set wallpaper
+# Start up executions
 exec_always feh --bg-fill $HOME/Pictures/wp.jpg
-
-# Set xrandr layout
-exec xrandr --output eDP-1 --primary --mode 1366x768 --pos 277x1080 --rotate normal --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal
-
-# Start apps
+exec_always $HOME/.config/polybar/launch.sh
+exec_always picom --config $HOME/.config/picom.conf
+exec_always dunst
+exec "setxkbmap us,ir -option grp:alt_shift_toggle"
+exec "libinput-gestures-setup start"
 exec "kitty zsh -c 'cowsay Hi! | lolcat; cat ~/.todo | cowsay | lolcat; zsh'"
 exec "kitty"
 exec "emacs"
 exec "copyq"
-
-# Set floating apps
-for_window [class="Nm-connection-editor"] floating enable
-for_window [class="copyq"] floating enable
