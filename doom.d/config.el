@@ -123,6 +123,8 @@
   (setq key-chord-two-keys-delay 0.005))
 (key-chord-mode 1)
 
+(use-package evil-textobj-line)
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;;     Hooks       ;;
 ;;;;;;;;;;;;;;;;;;;;;

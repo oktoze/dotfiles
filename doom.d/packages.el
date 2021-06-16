@@ -53,3 +53,4 @@
 (package! org-bullets)
 (package! dap-mode)
 (package! key-chord)
+(package! evil-textobj-line)
