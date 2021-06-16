@@ -55,54 +55,20 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; Feel free to throw your own personal keybindings here
-(map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
-(map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
-(map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
-
-(map! :leader
-      (:prefix-map ("a" . "Avy navigation")
-      :desc "go to char" "a" #'avy-goto-char
-      :desc "go to char 2" "c" #'avy-goto-char-2
-      :desc "go to char n" "t" #'avy-goto-char-timer
-      :desc "go to line" "l" #'avy-goto-line
-      :desc "go to word 1" "w" #'avy-goto-word-1
-      :desc "go to word 1" "e" #'avy-goto-word-0))
-
-;; (map! :leader
-;;       (:prefix-map ("y" . "folding")
-;;       :desc "go to parent" "p" #'yafolding-go-parent-element
-;;       :desc "hide parent element" "h" #'yafolding-hide-parent-element
-;;       :desc "show element" "o" #'yafolding-show-element
-;;       :desc "hide element" "c" #'yafolding-hide-element
-;;       :desc "toggle element" "t" #'yafolding-toggle-element))
-
-(setq highlight-indent-guides-method 'bitmap)
-
-(add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
-
-;; vim-surrond config
-(setq-default evil-surround-pairs-alist
-  '((?\( . ("(" . ")"))
-    (?\[ . ("[" . "]"))
-    (?\{ . ("{" . "}"))
-
-    (?\) . ("(" . ")"))
-    (?\] . ("[" . "]"))
-    (?\} . ("{" . "}"))
-
-    (?# . ("#{" . "}"))
-    (?b . ("(" . ")"))
-    (?B . ("{" . "}"))
-    (?> . ("<" . ">"))
-    (?t . evil-surround-read-tag)
-    (?< . evil-surround-read-tag)
-    (?f . evil-surround-function)))
+;;;;;;;;;;;;;;;;;;;;;
+;; Package configs ;;
+;;;;;;;;;;;;;;;;;;;;;
 
 ;; Org-mode config
 (use-package org
   :hook (org-mode . org-bullets-mode)
-  :hook (org-mode lambda () (display-line-numbers-mode 0) (hl-line-mode 0))
+  :hook (org-mode lambda ()
+                  (display-line-numbers-mode 0)
+                  (hl-line-mode 0))
+  :hook  (org-mode lambda ()
+                   (setq visual-fill-column-width 100
+                         visual-fill-column-center-text t)
+                   (visual-fill-column-mode 1))
   :config
   (setq org-ellipsis " ▼")
   (setq org-agenda-start-with-log-mode t)
@@ -110,14 +76,8 @@
   (setq org-log-into-drawer t)
   (setq org-agenda-files '("~/Org/Tasks")))
 
-(use-package visual-fill-column
-  :defer
-  :hook (org-mode lambda ()
-                  (setq visual-fill-column-width 100
-                        visual-fill-column-center-text t)
-                  (visual-fill-column-mode 1)
-                  ))
-
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode))
 
 ;; Company config
 (use-package company
@@ -134,20 +94,47 @@
   :config
   (setq lsp-file-watch-threshold 2000))
 
-;; set black formatter
+;; python-black config
 (use-package python-black
   :demand t
   :after python
   :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
+;; diff-hl config (highlighting git changes)
+(use-package diff-hl
+  :hook (prog-mode . diff-hl-mode))
+
+;; visual-fill-column config
+(use-package visual-fill-column
+  :defer
+  :hook (org-mode lambda ()
+                  (setq visual-fill-column-width 100
+                        visual-fill-column-center-text t)
+                  (visual-fill-column-mode 1)))
+
+;; highlight-indent-guides config
+(use-package highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-method 'bitmap))
+
+;; key-chord config
 (use-package key-chord
   :config
   (setq key-chord-two-keys-delay 0.005))
 (key-chord-mode 1)
 
+;;;;;;;;;;;;;;;;;;;;;
+;;     Hooks       ;;
+;;;;;;;;;;;;;;;;;;;;;
+
+;; go autoformatting
 (add-hook 'before-save-hook 'gofmt-before-save)
 
-;; evil config
+;;;;;;;;;;;;;;;;;;;;;
+;;     Keymaps     ;;
+;;;;;;;;;;;;;;;;;;;;;
+
+;; Evil keymaps
 (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
 (key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
@@ -171,3 +158,13 @@
 (define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
 (define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
 (define-key evil-normal-state-map (kbd "\"")  'evil-surround-word)
+
+;; Avy keymaps
+(map! :leader
+      (:prefix-map ("a" . "Avy navigation")
+       :desc "go to char" "a" #'avy-goto-char
+       :desc "go to char 2" "c" #'avy-goto-char-2
+       :desc "go to char n" "t" #'avy-goto-char-timer
+       :desc "go to line" "l" #'avy-goto-line
+       :desc "go to word 1" "w" #'avy-goto-word-1
+       :desc "go to word 1" "e" #'avy-goto-word-0))
