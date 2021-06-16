@@ -135,8 +135,9 @@
 ;;;;;;;;;;;;;;;;;;;;;
 
 ;; Evil keymaps
-(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
-(key-chord-define evil-visual-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "jk" (kbd "<escape>"))
+(key-chord-define evil-visual-state-map "jk" (kbd "<escape>"))
+(key-chord-define evil-mc-key-map "jk" 'evil-mc-undo-all-cursors)
 
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
@@ -151,10 +152,17 @@
 (define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
 (define-key evil-normal-state-map (kbd "\"")  'evil-surround-word)
 
-;; multiple cursors keybindings
+(defun evil-insert-into-lines ()
+  (interactive)
+  (evil-ex "'<,'>norm I"))
+(defun evil-append-to-lines ()
+  (interactive)
+  (evil-ex "'<,'>norm A"))
+
+;; insert/append to lines
 (define-key input-decode-map (kbd "C-i") (kbd "H-i"))
-(define-key evil-visual-state-map (kbd "H-i") 'mc/edit-beginnings-of-lines)
-(define-key evil-visual-state-map (kbd "C-a") 'mc/edit-ends-of-lines)
+(define-key evil-visual-state-map (kbd "H-i") 'evil-insert-into-lines)
+(define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
 
 ;; Avy keymaps
 (map! :leader
