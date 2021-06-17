@@ -137,7 +137,7 @@
 ;; Evil keymaps
 (key-chord-define evil-insert-state-map "jk" (kbd "<escape>"))
 (key-chord-define evil-visual-state-map "jk" (kbd "<escape>"))
-(key-chord-define evil-mc-key-map "jk" 'evil-mc-undo-all-cursors)
+(key-chord-define evil-mc-key-map "jk" (kbd "<escape>"))
 
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
