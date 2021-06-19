@@ -143,6 +143,9 @@
 ;;     Hooks       ;;
 ;;;;;;;;;;;;;;;;;;;;;
 
+;; load last session on startup
+(add-hook '+doom-dashboard-mode-hook 'doom/quickload-session)
+
 ;; go autoformatting
 (add-hook 'before-save-hook 'gofmt-before-save)
 
@@ -184,7 +187,6 @@
 (map! :leader
       :desc "Avy go to word" "a" #'avy-goto-word-0)
 
-
 (map! :leader
       (:prefix-map ("d" . "Debug")
        :desc "Open dap-hydra" "h" #'dap-hydra
@@ -192,6 +194,3 @@
        :desc "Toggle breakpoint" "b" #'dap-breakpoint-toggle
        :desc "Delete all breakpoints" "D" #'dap-breakpoint-delete-all
        :desc "Quit debugging" "q" #'dap-disconnect))
-
-;; start-up hook
-(add-hook '+doom-dashboard-mode-hook 'doom/quickload-session)
