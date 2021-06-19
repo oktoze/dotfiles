@@ -54,3 +54,5 @@
 (package! dap-mode)
 (package! key-chord)
 (package! evil-textobj-line)
+(package! tree-sitter)
+(package! tree-sitter-langs)

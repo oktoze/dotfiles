@@ -123,6 +123,18 @@
 
 (use-package evil-textobj-line)
 
+;; tree-sitter config
+(use-package tree-sitter
+  :hook (python-mode lambda ()
+                     (tree-sitter-mode 1)))
+(use-package tree-sitter-hl
+  :hook (python-mode lambda ()
+                     (tree-sitter-hl-mode 1)))
+(use-package tree-sitter-langs)
+;; I don't know what's the use for these, yet!
+;; (use-package tree-sitter-debug)
+;; (use-package tree-sitter-query)
+
 ;;;;;;;;;;;;;;;;;;;;;
 ;;     Hooks       ;;
 ;;;;;;;;;;;;;;;;;;;;;
@@ -167,3 +179,7 @@
 ;; Avy keymaps
 (map! :leader
       :desc "Avy go to word" "a" #'avy-goto-word-0)
+
+
+;; start-up hook
+(add-hook '+doom-dashboard-mode-hook 'doom/quickload-session)
