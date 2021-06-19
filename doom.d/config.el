@@ -100,6 +100,10 @@
   :after python
   :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
+(use-package dap-mode
+  :config
+  (require 'dap-python))
+
 ;; diff-hl config (highlighting git changes)
 (use-package diff-hl
   :hook (prog-mode . diff-hl-mode))
@@ -180,6 +184,14 @@
 (map! :leader
       :desc "Avy go to word" "a" #'avy-goto-word-0)
 
+
+(map! :leader
+      (:prefix-map ("d" . "Debug")
+       :desc "Open dap-hydra" "h" #'dap-hydra
+       :desc "Run dap-debug" "d" #'dap-debug
+       :desc "Toggle breakpoint" "b" #'dap-breakpoint-toggle
+       :desc "Delete all breakpoints" "D" #'dap-breakpoint-delete-all
+       :desc "Quit debugging" "q" #'dap-disconnect))
 
 ;; start-up hook
 (add-hook '+doom-dashboard-mode-hook 'doom/quickload-session)
