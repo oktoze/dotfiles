@@ -115,7 +115,7 @@
 ;; highlight-indent-guides config
 (use-package highlight-indent-guides
   :config
-  (setq highlight-indent-guides-method 'bitmap))
+  (setq highlight-indent-guides-method 'character))
 
 ;; key-chord config
 (use-package key-chord)
@@ -166,10 +166,4 @@
 
 ;; Avy keymaps
 (map! :leader
-      (:prefix-map ("a" . "Avy navigation")
-       :desc "go to char" "a" #'avy-goto-char
-       :desc "go to char 2" "c" #'avy-goto-char-2
-       :desc "go to char n" "t" #'avy-goto-char-timer
-       :desc "go to line" "l" #'avy-goto-line
-       :desc "go to word 1" "w" #'avy-goto-word-1
-       :desc "go to word 1" "e" #'avy-goto-word-0))
+      :desc "Avy go to word" "a" #'avy-goto-word-0)
