@@ -100,6 +100,16 @@
   :after python
   :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
+;; pyvenv config
+(use-package pyvenv
+  :hook (python-mode lambda ()
+                     (when (file-exists-p (concat (projectile-project-root) "pyrightconfig.json"))
+                       (when (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))
+                         (pyvenv-workon (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))))
+                       )
+                     ))
+
+;; dap-mode config
 (use-package dap-mode
   :config
   (require 'dap-python))
@@ -142,9 +152,6 @@
 ;;;;;;;;;;;;;;;;;;;;;
 ;;     Hooks       ;;
 ;;;;;;;;;;;;;;;;;;;;;
-
-;; load last session on startup
-(add-hook '+doom-dashboard-mode-hook 'doom/quickload-session)
 
 ;; go autoformatting
 (add-hook 'before-save-hook 'gofmt-before-save)
@@ -191,6 +198,22 @@
       (:prefix-map ("d" . "Debug")
        :desc "Open dap-hydra" "h" #'dap-hydra
        :desc "Run dap-debug" "d" #'dap-debug
+       :desc "Run dap-debug for Django" "j" #'dap-debug-django-project
        :desc "Toggle breakpoint" "b" #'dap-breakpoint-toggle
        :desc "Delete all breakpoints" "D" #'dap-breakpoint-delete-all
        :desc "Quit debugging" "q" #'dap-disconnect))
+
+;;;;;;;;;;;;;;;;;;;;;
+;;    Functions    ;;
+;;;;;;;;;;;;;;;;;;;;;
+
+(defun dap-debug-django-project () (interactive) (dap-debug
+ (list :type "python"
+       :args '("runserver" "--noreload")
+       :cwd (projectile-project-root)
+       :console "integratedTerminal"
+       :program (concat (projectile-project-root) "manage.py")
+       :request "launch"
+       :name "Django debug"
+       :django t
+       )))
