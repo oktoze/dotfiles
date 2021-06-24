@@ -102,12 +102,8 @@
 
 ;; pyvenv config
 (use-package pyvenv
-  :hook (python-mode lambda ()
-                     (when (file-exists-p (concat (projectile-project-root) "pyrightconfig.json"))
-                       (when (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))
-                         (pyvenv-workon (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))))
-                       )
-                     ))
+  :config
+  (add-hook 'projectile-before-switch-project-hook 'enable-venv-from-pyright))
 
 ;; dap-mode config
 (use-package dap-mode
@@ -197,8 +193,7 @@
 (map! :leader
       (:prefix-map ("d" . "Debug")
        :desc "Open dap-hydra" "h" #'dap-hydra
-       :desc "Run dap-debug" "d" #'dap-debug
-       :desc "Run dap-debug for Django" "j" #'dap-debug-django-project
+       :desc "Run dap-debug" "d" #'dap-debug-custom
        :desc "Toggle breakpoint" "b" #'dap-breakpoint-toggle
        :desc "Delete all breakpoints" "D" #'dap-breakpoint-delete-all
        :desc "Quit debugging" "q" #'dap-disconnect))
@@ -207,13 +202,21 @@
 ;;    Functions    ;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-(defun dap-debug-django-project () (interactive) (dap-debug
- (list :type "python"
-       :args '("runserver" "--noreload")
-       :cwd (projectile-project-root)
-       :console "integratedTerminal"
-       :program (concat (projectile-project-root) "manage.py")
-       :request "launch"
-       :name "Django debug"
-       :django t
-       )))
+
+(defun dap-debug-custom () (interactive)
+       (if (file-exists-p (concat (projectile-project-root) "manage.py"))
+           (dap-debug (list :type "python"
+                            :args '("runserver" "--noreload")
+                            :cwd (projectile-project-root)
+                            :console "integratedTerminal"
+                            :program (concat (projectile-project-root) "manage.py")
+                            :request "launch"
+                            :name "Django debug"
+                            :django t))
+         (dap-debug)))
+
+(defun enable-venv-from-pyright ()
+  (if (file-exists-p (concat (projectile-project-root) "pyrightconfig.json"))
+      (when (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))
+        (pyvenv-workon (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))))
+    (pyvenv-deactivate)))
