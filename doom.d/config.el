@@ -202,7 +202,6 @@
 ;;    Functions    ;;
 ;;;;;;;;;;;;;;;;;;;;;
 
-
 (defun dap-debug-custom () (interactive)
        (if (file-exists-p (concat (projectile-project-root) "manage.py"))
            (dap-debug (list :type "python"
@@ -213,7 +212,7 @@
                             :request "launch"
                             :name "Django debug"
                             :django t))
-         (dap-debug)))
+         (command-execute 'dap-debug)))
 
 (defun enable-venv-from-pyright ()
   (if (file-exists-p (concat (projectile-project-root) "pyrightconfig.json"))
