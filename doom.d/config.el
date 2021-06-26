@@ -103,7 +103,8 @@
 ;; pyvenv config
 (use-package pyvenv
   :config
-  (add-hook 'projectile-before-switch-project-hook 'enable-venv-from-pyright))
+  (add-hook 'projectile-before-switch-project-hook 'enable-venv-from-pyright)
+  (add-hook 'treemacs-switch-workspace-hook 'enable-venv-from-pyright))
 
 ;; dap-mode config
 (use-package dap-mode
@@ -211,6 +212,7 @@
                             :program (concat (projectile-project-root) "manage.py")
                             :request "launch"
                             :name "Django debug"
+                            :debugOptions ["DebugStdLib" "ShowReturnValue" "RedirectOutput"]
                             :django t))
          (command-execute 'dap-debug)))
 
