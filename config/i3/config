@@ -186,8 +186,8 @@ bindsym Print exec "escrotum -sC"
 bindsym XF86AudioRaiseVolume exec "pamixer -u -i 5"
 bindsym XF86AudioLowerVolume exec "pamixer -u -d 5"
 bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
-bindsym $mod+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0-9+]' -o | xargs xinput disable"
-bindsym $mod+shift+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0-9+]' -o | xargs xinput enable"
+bindsym $mod+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0-9]+' -o | xargs xinput disable"
+bindsym $mod+shift+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0-9]+' -o | xargs xinput enable"
 bindsym $mod+c exec "copyq show"
 
 # Start up executions
