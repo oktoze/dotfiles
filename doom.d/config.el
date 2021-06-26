@@ -182,6 +182,9 @@
 (define-key evil-visual-state-map (kbd "H-i") 'evil-insert-into-lines)
 (define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
 
+;; calc
+(define-key global-map (kbd "C-x c") #'calc)
+
 ;; Avy keymaps
 (map! :leader
       :desc "Avy go to word" "a" #'avy-goto-word-0)
