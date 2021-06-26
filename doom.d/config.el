@@ -61,14 +61,9 @@
 
 ;; Org-mode config
 (use-package org
-  :hook (org-mode . org-bullets-mode)
   :hook (org-mode lambda ()
                   (display-line-numbers-mode 0)
                   (hl-line-mode 0))
-  :hook  (org-mode lambda ()
-                   (setq visual-fill-column-width 100
-                         visual-fill-column-center-text t)
-                   (visual-fill-column-mode 1))
   :config
   (setq org-ellipsis " ▼")
   (setq org-agenda-start-with-log-mode t)
