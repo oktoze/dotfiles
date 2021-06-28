@@ -1,6 +1,7 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
+
 ;; sync' after modifying this file!
 
 
@@ -98,13 +99,16 @@
 ;; pyvenv config
 (use-package pyvenv
   :config
-  (add-hook 'projectile-before-switch-project-hook 'enable-venv-from-pyright)
-  (add-hook 'treemacs-switch-workspace-hook 'enable-venv-from-pyright))
+  (add-hook 'projectile-before-switch-project-hook 'enable-venv-from-pyright))
 
 ;; dap-mode config
 (use-package dap-mode
   :config
   (require 'dap-python))
+
+(use-package magit
+  :config
+  (setq magit-blame-echo-style 'margin))
 
 ;; diff-hl config (highlighting git changes)
 (use-package diff-hl
@@ -160,6 +164,8 @@
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
 
+(define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file)
+
 (defun evil-go-to-norm-exec ()
   (interactive)
   (evil-ex "'<,'>norm "))
@@ -196,6 +202,9 @@
        :desc "Toggle breakpoint" "b" #'dap-breakpoint-toggle
        :desc "Delete all breakpoints" "D" #'dap-breakpoint-delete-all
        :desc "Quit debugging" "q" #'dap-disconnect))
+
+(map! :leader
+      :desc "Git blame" "g B" #'magit-blame-echo)
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;    Functions    ;;
