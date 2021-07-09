@@ -176,18 +176,6 @@
 (define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
 (define-key evil-normal-state-map (kbd "\"")  'evil-surround-word)
 
-(defun evil-insert-into-lines ()
-  (interactive)
-  (evil-ex "'<,'>norm I"))
-(defun evil-append-to-lines ()
-  (interactive)
-  (evil-ex "'<,'>norm A"))
-
-;; insert/append to lines
-(define-key input-decode-map (kbd "C-i") (kbd "H-i"))
-(define-key evil-visual-state-map (kbd "H-i") 'evil-insert-into-lines)
-(define-key evil-visual-state-map (kbd "C-a") 'evil-append-to-lines)
-
 ;; calc
 (define-key global-map (kbd "C-x c") #'calc)
 
