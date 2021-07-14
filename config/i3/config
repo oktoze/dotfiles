@@ -176,7 +176,7 @@ assign [class="TelegramDesktop"] $ws7
 
 # Set floating apps
 for_window [class="Nm-connection-editor"] floating enable
-for_window [class="copyq"] floating enable
+# for_window [class="copyq"] floating enable
 
 # Setting some keybindings
 # For screenshoting, I use escrotum (wtf?) and volume control is done
@@ -186,6 +186,9 @@ bindsym Print exec "escrotum -sC"
 bindsym XF86AudioRaiseVolume exec "pamixer -u -i 5"
 bindsym XF86AudioLowerVolume exec "pamixer -u -d 5"
 bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
+bindsym XF86AudioPlay exec "mpc toggle"
+bindsym XF86AudioNext exec "mpc next"
+bindsym XF86AudioPrev exec "mpc prev"
 bindsym $mod+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0-9]+' -o | xargs xinput disable"
 bindsym $mod+shift+t exec "xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | rg '[0-9]+' -o | xargs xinput enable"
 bindsym $mod+c exec "copyq show"
