@@ -195,7 +195,7 @@ bindsym $mod+c exec "copyq show"
 
 # Start up executions
 exec_always feh --bg-fill $HOME/Pictures/wp.jpg
-exec_always $HOME/.config/polybar/launch.sh
+exec_always $HOME/.config/polybar/launch.sh --shades
 exec_always picom --config $HOME/.config/picom.conf
 exec_always dunst
 exec "setxkbmap us,ir -option grp:alt_shift_toggle"
@@ -207,4 +207,4 @@ exec "emacs"
 exec "firefox"
 exec "dolphin"
 exec "copyq"
-exec "mpd ~/.config/mpd.conf"
+exec "mpd ~/.config/mpd/mpd.conf"
