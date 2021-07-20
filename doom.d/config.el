@@ -156,13 +156,21 @@
 ;;     Keymaps     ;;
 ;;;;;;;;;;;;;;;;;;;;;
 
+;; general keymaps
+(define-key evil-normal-state-map (kbd "C-a") 'move-beginning-of-line)
+(define-key evil-visual-state-map (kbd "C-a") 'move-beginning-of-line)
+(define-key evil-motion-state-map (kbd "C-a") 'move-beginning-of-line)
+(define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
+(define-key evil-visual-state-map (kbd "C-e") 'move-end-of-line)
+(define-key evil-motion-state-map (kbd "C-e") 'move-end-of-line)
+
 ;; Evil keymaps
 (key-chord-define evil-insert-state-map "jk" (kbd "<escape>"))
 (key-chord-define evil-visual-state-map "jk" (kbd "<escape>"))
 (key-chord-define evil-mc-key-map "jk" (kbd "<escape>"))
 
-(define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
-(define-key evil-normal-state-map (kbd "C-z") 'evil-numbers/dec-at-pt)
+(define-key evil-normal-state-map (kbd "C-=") 'evil-numbers/inc-at-pt)
+(define-key evil-normal-state-map (kbd "C--") 'evil-numbers/dec-at-pt)
 
 (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file)
 

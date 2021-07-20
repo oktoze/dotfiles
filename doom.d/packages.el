@@ -56,3 +56,4 @@
 (package! evil-textobj-line)
 (package! tree-sitter)
 (package! tree-sitter-langs)
+(package! pdf-tools)
