@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dir="$HOME/.config/polybar"
+dir="$HOME/.config/polybar-config"
 
 launch_bar() {
 	# Terminate already running bar instances

@@ -88,7 +88,8 @@
 ;; lsp-mode config
 (use-package lsp-mode
   :config
-  (setq lsp-file-watch-threshold 2000))
+  (setq lsp-file-watch-threshold 2000)
+  (add-hook 'lsp-after-apply-edits-hook 'projectile-save-project-buffers))
 
 ;; python-black config
 (use-package python-black
@@ -163,6 +164,8 @@
 (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
 (define-key evil-visual-state-map (kbd "C-e") 'move-end-of-line)
 (define-key evil-motion-state-map (kbd "C-e") 'move-end-of-line)
+(define-key evil-normal-state-map (kbd "C-M-d") 'down-list)
+(define-key evil-visual-state-map (kbd "C-M-d") 'down-list)
 
 ;; Evil keymaps
 (key-chord-define evil-insert-state-map "jk" (kbd "<escape>"))

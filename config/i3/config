@@ -182,6 +182,7 @@ for_window [class="Nm-connection-editor"] floating enable
 # For screenshoting, I use escrotum (wtf?) and volume control is done
 # using pamixer. Enabling and disabling touchpad needs xinput and rg
 bindsym $mod+Ctrl+l exec "~/.config/i3/i3lock.sh"
+bindsym $mod+Ctrl+s exec "~/.config/i3/i3lock.sh && systemctl suspend"
 bindsym Print exec "escrotum -sC"
 bindsym XF86AudioRaiseVolume exec "pamixer -u -i 5"
 bindsym XF86AudioLowerVolume exec "pamixer -u -d 5"
