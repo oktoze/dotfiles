@@ -31,6 +31,8 @@ export LC_ALL=en_US.UTF-8
 # For a full list of active aliases, run `alias`.
 alias vv="source ~/Projects/General/scripts/vv.sh"
 
+export PATH=$PATH:~/.local/bin
+
 # Spark
 export SPARK_HOME=~/.spark-3.1.1-bin-hadoop2.7
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk

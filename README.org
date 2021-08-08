@@ -1,7 +1,7 @@
 * Kamyab dotfiles
 
 ** Components
-- 'doom.d/' Configuration for [[https://github.com/hlissner/doom-emacs][Doom]], an awesome distribution of Emacs
+- init.el' Configuration for GNU Emac
 - 'Xmodmap' Configuration for xmodmap, an X keymap modifier
 - 'zshrc' Configuration for [[https://www.zsh.org/][Zsh]]
 - 'config/dunst' Configuration for [[https://dunst-project.org/][dunst]], a notification daemon

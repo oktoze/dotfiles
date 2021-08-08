@@ -159,7 +159,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Switching between workspaces
-bindsym mod1+Tab workspace back_and_forth
+bindsym mod1+Tab exec "false"
+bindsym mod1+Shift+Tab exec "false"
 
 # Gaps config
 smart_gaps on
@@ -199,7 +200,8 @@ exec_always feh --bg-fill $HOME/Pictures/wp.jpg
 exec_always $HOME/.config/polybar/launch.sh --shapes
 exec_always picom --config $HOME/.config/picom.conf
 exec_always dunst
-exec "setxkbmap us,ir -option grp:alt_shift_toggle"
+exec_always "~/.local/bin/i3alter"
+exec "setxkbmap us,ir -option grp:ctrls_toggle"
 exec "xmodmap .Xmodmap"
 exec "libinput-gestures-setup start"
 exec "kitty zsh -c 'cowsay Hi! | lolcat; cat ~/.todo | cowsay | lolcat; zsh'"
