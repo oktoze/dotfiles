@@ -1,14 +1,28 @@
-(setq inhibit-startup-message t)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
 (menu-bar-mode -1)
 (set-fringe-mode 10)
 (global-hl-line-mode 1)
-(display-line-numbers-mode 1)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-(set-face-attribute 'default nil :font "Hack" :height 130) 
+;; Get rid of annoying backup/autosave/lock files
+(setq create-lockfiles nil)
+(setq temporary-file-directory "~/.emacs.d/tmp/")
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+(setq custom-file "~/.emacs-custom.el")
+(load custom-file)
+
+(set-face-attribute 'default nil :font "JetBrains Mono" :height 130)
+(modify-syntax-entry ?_ "w")
+
+;; use some doom modules
+(load "~/.emacs.d/modules/doom-projects.el")
+(load "~/.emacs.d/modules/doom-buffers.el")
+(load "~/.emacs.d/modules/doom-files.el")
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -48,7 +62,8 @@
 		    ("C-k" . ivy-previous-line)
 		    ("C-d" . ivy-reverse-i-search-kill)) 
 	     :config
-	     (ivy-mode 1))
+	     (ivy-mode 1)
+		 (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . "")))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
@@ -56,7 +71,8 @@
   :config
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t)
-  (load-theme 'doom-horizon t))
+  (column-number-mode 1)
+  (load-theme 'doom-wilmersdorf t))
 
 (use-package avy)
 
@@ -79,7 +95,9 @@
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+  (evil-set-initial-state 'dashboard-mode 'normal)
+  (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
+  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line))
 
 (use-package evil-collection
   :after evil
@@ -90,14 +108,40 @@
 (use-package evil-surround
   :after evil
   :config
-  (evil-surround-mode))
-  
-(use-package key-chord
+  (global-evil-surround-mode 1))
+
+(use-package evil-commentary
   :after evil
+  :init
+  (evil-commentary-mode))
+  
+(use-package magit
+  :init
   :config
-  (key-chord-mode 1)
-  (key-chord-define evil-insert-state-map "jk" (kbd "<escape>"))
-  (key-chord-define evil-visual-state-map "jk" (kbd "<escape>")))
+  (setq magit-display-buffer-function
+	(lambda (buffer)
+	  (display-buffer buffer '(display-buffer-same-window))))
+  (with-eval-after-load 'magit-status
+	(define-key magit-status-mode-map (kbd "SPC") nil)))
+
+(defun kz/enable-venv-from-pyrightconfig ()
+  (interactive)
+  (if (file-exists-p (concat (projectile-project-root) "pyrightconfig.json"))
+      (when (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))
+		 (pyvenv-workon (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))))
+    (pyvenv-deactivate)))
+
+(defun kz/projectile-switch-project-action ()
+  (persp-switch (projectile-project-name))
+  (magit-status)
+  (kz/enable-venv-from-pyrightconfig)
+  (projectile-find-file))
+
+(use-package projectile
+  :demand t
+  :config (projectile-mode)
+  :init
+  (setq projectile-switch-project-action #'kz/projectile-switch-project-action))
 
 (defun kz/open-emacs-config ()
   (interactive)
@@ -113,7 +157,7 @@
   (general-create-definer kz/leader-key
     :keymaps '(normal visual emacs)
     :prefix "SPC")
-  
+
   (kz/leader-key
     "TAB" 'mode-line-other-buffer
     "a" 'avy-goto-word-0
@@ -123,34 +167,39 @@
     "hv" 'describe-variable
     "fs" 'save-buffer
     "ff" 'counsel-find-file
+	"fR" 'doom/move-this-file
+	"fD" 'doom/delete-this-file
     "pf" 'projectile-find-file
     "SPC" 'projectile-find-file
     "pa" 'projectile-add-known-project
     "pp" 'projectile-switch-project
     "pd" 'projectile-dired
     "bd" 'kill-current-buffer
-    "bb" 'counsel-switch-buffer
-    "bB" 'counsel-switch-buffer
+    "bb" 'persp-counsel-switch-buffer
+	"br" 'revert-buffer
     "gg" 'magit-status
-    "wd" 'delete-window))
+    "wd" 'delete-window
+	"cr" 'lsp-rename
+	"cd" 'lsp-find-definition
+	"cR" 'lsp-find-references 
+	"``" 'persp-switch
+	"`n" 'persp-next
+	"`p" 'persp-prev
+	"`d" 'persp-kill
+	"/"  'counsel-projectile-grep)
+
+  (general-imap "j"
+	(general-key-dispatch 'self-insert-command
+	  "k" 'evil-normal-state))
+
+  (general-define-key :keymaps 'evil-normal-state-map "\"" 'kz/evil-surround-word))
 
 (use-package which-key
   :init
   (which-key-mode)
   :config
-  (setq which-key-idle-delay 0.0))
-
-(use-package magit
-  :config
-  (setq magit-display-buffer-function
-	(lambda (buffer)
-	  (display-buffer buffer '(display-buffer-same-window)))))
-
-(use-package projectile
-  :demand t
-  :config (projectile-mode)
-  :init
-  (setq projectile-switch-project-action #'magit-status))
+  (setq which-key-idle-delay 0.0)
+  (setq which-key-idle-secondary-delay 0.05))
 
 (use-package company
   :defer 2
@@ -185,16 +234,8 @@
   :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
 
-(defun kz/enable-venv-from-pyrightconfig ()
-  (interactive)
-  (if (file-exists-p (concat (projectile-project-root) "pyrightconfig.json"))
-      (when (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))
-        (pyvenv-workon (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))))
-    (pyvenv-deactivate)))
-
 (use-package pyvenv
   :config
-  (add-hook 'projectile-before-switch-project-hook 'kz/enable-venv-from-pyrightconfig)
   (pyvenv-mode 1))
 
 (use-package flycheck
@@ -241,23 +282,42 @@
 
 (use-package pdf-tools
   :defer t
-  :config
+  :init
   (pdf-tools-install))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("8621edcbfcf57e760b44950bb1787a444e03992cb5a32d0d9aec212ea1cd5234" default))
- '(make-backup-files nil)
- '(package-selected-packages
-   '(evil-surround pdf-tools tree-sitter-langs tree-sitter-hl tree-sitter python-black pyvenv visual-fill-column org-mode org-bullets evil-magit yaml-mode json-mode flycheck lsp-pyright lsp-mode company-box company counsel-projectile projectile magit perspective avy which-key general key-chord doom-themes doom-modeline counsel swiper ivy use-package))
- '(tab-width 4))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(use-package smartparens
+  :init
+  (require 'smartparens-config)
+  :config
+  (smartparens-global-mode 1))
+
+(use-package treemacs)
+
+(use-package perspective
+  :init
+  (persp-mode t))
+
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-center-content t)
+  (setq dashboard-startup-banner "~/Pictures/berserker-small.png")
+  (setq dashboard-banner-logo-title "The door to an another level of the Astral world has opened. Let us proceed.")
+  (setq dashboard-items '((projects . 5)
+						  (agenda . 5)
+						  (bookmarks . 5)))
+  (setq dashboard-footer-messages '(""))
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-init-info ""))
+
+(use-package beacon
+  :config
+  (beacon-mode 1)
+  (setq beacon-color "#3730d9"))
+
+(load "~/.emacs.d/modules/gcmh.el")
+(gcmh-mode 1)
+
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
