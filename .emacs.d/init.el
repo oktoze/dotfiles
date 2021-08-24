@@ -5,6 +5,7 @@
 (set-fringe-mode 10)
 (global-hl-line-mode 1)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+(setq-default indent-tabs-mode nil)
 
 ;; Get rid of annoying backup/autosave/lock files
 (setq create-lockfiles nil)
@@ -46,24 +47,36 @@
   :bind ("C-x b" . counsel-switch-buffer)
   :bind ("C-x C-b" . counsel-switch-buffer))
 
+(use-package prescient)
+(use-package ivy-prescient
+  :after ivy
+  :config
+  (ivy-prescient-mode 1))
+(use-package company-prescient
+  :after company
+  :config
+  (company-prescient-mode 1))
+
+(use-package all-the-icons-ivy)
+
 (use-package ivy
-             :diminish
-	     :bind (("C-s" . swiper)
-		    :map ivy-minibuffer-map
-		    ("TAB" . ivy-done)
-		    ("C-" . ivy-done)
-		    ("C-j" . ivy-next-line)
-		    ("C-k" . ivy-previous-line)
-		    :map ivy-switch-buffer-map
-		    ("C-k"  . ivy-previous-line)
-		    ("C-l" . ivy-done)
-		    ("C-d" . ivy-switch-buffer-kill)
-		    :map ivy-reverse-i-search-map
-		    ("C-k" . ivy-previous-line)
-		    ("C-d" . ivy-reverse-i-search-kill)) 
-	     :config
-	     (ivy-mode 1)
-		 (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . "")))
+  :diminish
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-done)
+         ("C-" . ivy-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k"  . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill)) 
+  :config
+  (ivy-mode 1)
+  (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . "")))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
@@ -72,7 +85,7 @@
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t)
   (column-number-mode 1)
-  (load-theme 'doom-wilmersdorf t))
+  (load-theme 'doom-dracula))
 
 (use-package avy)
 
@@ -275,7 +288,7 @@
                   (visual-fill-column-mode 1)))
   
 (use-package tree-sitter
-  :hook (python-mode lambda ()
+  :hook (prog-mode lambda ()
                      (tree-sitter-mode 1)
 					 (tree-sitter-hl-mode 1)))
 (use-package tree-sitter-langs)
@@ -315,6 +328,8 @@
   :config
   (beacon-mode 1)
   (setq beacon-color "#3730d9"))
+
+(use-package org-jira)
 
 (load "~/.emacs.d/modules/gcmh.el")
 (gcmh-mode 1)

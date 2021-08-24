@@ -19,13 +19,19 @@ filetype off
 
 call plug#begin('~/.vim/plugged')
 Plug 'neovim/nvim-lspconfig'
+Plug 'jreybert/vimagit'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-commentary'
 Plug 'easymotion/vim-easymotion'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kien/ctrlp.vim'
 Plug 'hrsh7th/nvim-compe'
+Plug 'dracula/vim'
 call plug#end()
+
+" theme
+colorscheme dracula
 
 " running macro over all visually selected lines
 function! ExecuteMacroOverVisualRange()
@@ -75,5 +81,20 @@ require'compe'.setup {
     ultisnips = true;
     luasnip = true;
   };
+}
+EOF
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = { "c", "rust" },  -- list of language that will be disabled
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
 }
 EOF
