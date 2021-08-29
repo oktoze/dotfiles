@@ -19,7 +19,7 @@ filetype off
 
 call plug#begin('~/.vim/plugged')
 Plug 'neovim/nvim-lspconfig'
-Plug 'jreybert/vimagit'
+Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-commentary'
