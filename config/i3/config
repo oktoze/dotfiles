@@ -37,6 +37,9 @@ bindsym $mod+q kill
 bindsym $mod+d exec --no-startup-id rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/shades/scripts/rofi/launcher.rasi
 bindsym ctrl+space exec --no-startup-id rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/shades/scripts/rofi/launcher.rasi
 
+# don't focus on hover
+focus_follows_mouse no
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
