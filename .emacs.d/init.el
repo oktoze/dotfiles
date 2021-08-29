@@ -4,8 +4,10 @@
 (menu-bar-mode -1)
 (set-fringe-mode 10)
 (global-hl-line-mode 1)
+(global-visual-line-mode 1)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (setq-default indent-tabs-mode nil)
+(put 'dired-find-alternate-file 'disabled nil)
 
 ;; Get rid of annoying backup/autosave/lock files
 (setq create-lockfiles nil)
@@ -19,6 +21,12 @@
 
 (set-face-attribute 'default nil :font "JetBrains Mono" :height 130)
 (modify-syntax-entry ?_ "w")
+
+;; font for arabic characters
+(set-fontset-font
+   "fontset-default"
+   (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
+   "Vazir Code")
 
 ;; use some doom modules
 (load "~/.emacs.d/modules/doom-projects.el")
@@ -47,7 +55,9 @@
   :bind ("C-x b" . counsel-switch-buffer)
   :bind ("C-x C-b" . counsel-switch-buffer))
 
-(use-package prescient)
+(use-package prescient
+  :config
+  (prescient-persist-mode 1))
 (use-package ivy-prescient
   :after ivy
   :config
@@ -57,14 +67,15 @@
   :config
   (company-prescient-mode 1))
 
-(use-package all-the-icons-ivy)
+(use-package all-the-icons-ivy
+  :config
+  (all-the-icons-ivy-setup))
 
 (use-package ivy
   :diminish
   :bind (("C-s" . swiper)
          :map ivy-minibuffer-map
          ("TAB" . ivy-done)
-         ("C-" . ivy-done)
          ("C-j" . ivy-next-line)
          ("C-k" . ivy-previous-line)
          :map ivy-switch-buffer-map
@@ -127,6 +138,8 @@
   :after evil
   :init
   (evil-commentary-mode))
+
+(use-package evil-ediff)
   
 (use-package magit
   :init
@@ -164,6 +177,10 @@
   (interactive)
   (execute-kbd-macro (concat "viwS" (char-to-string (read-char)))))
 
+(defun kz/search-project ()
+  (interactive)
+  (counsel-git-grep))
+
 (use-package general
   :config
   (general-evil-setup t)
@@ -187,10 +204,12 @@
     "pa" 'projectile-add-known-project
     "pp" 'projectile-switch-project
     "pd" 'projectile-dired
+    "pb" 'counsel-projectile-switch-to-buffer
     "bd" 'kill-current-buffer
     "bb" 'persp-counsel-switch-buffer
 	"br" 'revert-buffer
     "gg" 'magit-status
+    "gB" 'magit-blame-addition
     "wd" 'delete-window
 	"cr" 'lsp-rename
 	"cd" 'lsp-find-definition
@@ -199,7 +218,7 @@
 	"`n" 'persp-next
 	"`p" 'persp-prev
 	"`d" 'persp-kill
-	"/"  'counsel-projectile-grep)
+	"/"  'kz/search-project)
 
   (general-imap "j"
 	(general-key-dispatch 'self-insert-command
@@ -260,7 +279,8 @@
 
 (use-package json-mode)
 (use-package yaml-mode)
-  
+
+ 
 (use-package org
   :hook (org-mode lambda ()
 				  (display-line-numbers-mode 0)
@@ -280,6 +300,8 @@
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode))
 
+(use-package latex-preview-pane)
+
 (use-package visual-fill-column
   :defer
   :hook (org-mode lambda ()
@@ -288,7 +310,7 @@
                   (visual-fill-column-mode 1)))
   
 (use-package tree-sitter
-  :hook (prog-mode lambda ()
+  :hook (python-mode lambda ()
                      (tree-sitter-mode 1)
 					 (tree-sitter-hl-mode 1)))
 (use-package tree-sitter-langs)
@@ -335,4 +357,3 @@
 (gcmh-mode 1)
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-
