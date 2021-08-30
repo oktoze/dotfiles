@@ -187,7 +187,11 @@ assign [class="TelegramDesktop"] $ws7
 
 # Set floating apps
 for_window [class="Nm-connection-editor"] floating enable
-# for_window [class="copyq"] floating enable
+for_window [class="copyq"] floating enable
+
+# Set default size for floating apps
+for_window [class="copyq"] resize 480 320
+
 
 # Setting some keybindings
 # For screenshoting, I use escrotum (wtf?) and volume control is done
