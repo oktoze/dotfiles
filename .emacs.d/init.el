@@ -123,11 +123,18 @@
   (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
   (define-key evil-visual-state-map (kbd "C-e") 'end-of-line))
 
+(defun kz/alternate-dired-up-directory ()
+  (interactive)
+  (find-alternate-file ".."))
+
 (use-package evil-collection
   :after evil
   :init
   :config
-  (evil-collection-init))
+  (evil-collection-init)
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'kz/alternate-dired-up-directory
+    "l" 'dired-find-alternate-file))
 
 (use-package evil-surround
   :after evil
@@ -224,7 +231,9 @@
 	(general-key-dispatch 'self-insert-command
 	  "k" 'evil-normal-state))
 
-  (general-define-key :keymaps 'evil-normal-state-map "\"" 'kz/evil-surround-word))
+  (general-define-key
+   :keymaps 'evil-normal-state-map
+   "\"" 'kz/evil-surround-word))
 
 (use-package which-key
   :init
@@ -352,6 +361,10 @@
   (setq beacon-color "#3730d9"))
 
 (use-package org-jira)
+
+(use-package highlight-indent-guides
+  :config
+  (setq highlight-indent-guides-method 'column))
 
 (load "~/.emacs.d/modules/gcmh.el")
 (gcmh-mode 1)
