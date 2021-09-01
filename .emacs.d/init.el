@@ -134,7 +134,8 @@
   (evil-collection-init)
   (evil-collection-define-key 'normal 'dired-mode-map
     "h" 'kz/alternate-dired-up-directory
-    "l" 'dired-find-alternate-file))
+    "l" 'dired-find-alternate-file
+    (kbd "SPC") nil))
 
 (use-package evil-surround
   :after evil
@@ -217,7 +218,7 @@
 	"br" 'revert-buffer
     "gg" 'magit-status
     "gB" 'magit-blame-addition
-    "wd" 'delete-window
+    "w" 'ace-window
 	"cr" 'lsp-rename
 	"cd" 'lsp-find-definition
 	"cR" 'lsp-find-references 
@@ -365,6 +366,11 @@
 (use-package highlight-indent-guides
   :config
   (setq highlight-indent-guides-method 'column))
+
+(use-package ace-window
+  :config
+  (setq aw-dispatch-always t))
+  ;; (setq aw-keys '(?j ?k ?l ?a ?s ?d ?h ?g)))
 
 (load "~/.emacs.d/modules/gcmh.el")
 (gcmh-mode 1)
