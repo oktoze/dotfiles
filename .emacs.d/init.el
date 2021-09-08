@@ -1,3 +1,23 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; stolen bits from Doom Emacs to make the startup faster ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; supressing garabge-collector at startup
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.6)
+(add-hook 'emacs-startup-hook
+  (lambda ()
+    (setq gc-cons-threshold 16777216
+          gc-cons-percentage 0.1)))
+
+;; unset file-name-handler-alist temporarily 
+(defvar doom--file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+(add-hook 'emacs-startup-hook
+  (lambda ()
+    (setq file-name-handler-alist doom--file-name-handler-alist)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (tooltip-mode -1)
@@ -29,9 +49,8 @@
    "Vazir Code")
 
 ;; use some doom modules
-(load "~/.emacs.d/modules/doom-projects.el")
-(load "~/.emacs.d/modules/doom-buffers.el")
-(load "~/.emacs.d/modules/doom-files.el")
+(autoload 'doom/move-this-file "~/.emacs.d/modules/doom-functions.elc")
+(autoload 'doom/delete-this-file "~/.emacs.d/modules/doom-functions.elc")
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -96,9 +115,10 @@
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t)
   (column-number-mode 1)
-  (load-theme 'doom-dracula))
+  (load-theme 'doom-dracula t))
 
-(use-package avy)
+(use-package avy
+  :defer t)
 
 (use-package undo-tree
   :init
@@ -132,10 +152,11 @@
   :init
   :config
   (evil-collection-init)
-  (evil-collection-define-key 'normal 'dired-mode-map
-    "h" 'kz/alternate-dired-up-directory
-    "l" 'dired-find-alternate-file
-    (kbd "SPC") nil))
+  :hook 'dired-mode lambda ()
+    (evil-collection-define-key 'normal 'dired-mode-map
+      "h" 'kz/alternate-dired-up-directory
+      "l" 'dired-find-alternate-file
+      (kbd "SPC") nil))
 
 (use-package evil-surround
   :after evil
@@ -150,7 +171,7 @@
 (use-package evil-ediff)
   
 (use-package magit
-  :init
+  :defer t
   :config
   (setq magit-display-buffer-function
 	(lambda (buffer)
@@ -244,12 +265,12 @@
   (setq which-key-idle-secondary-delay 0.05))
 
 (use-package company
-  :defer 2
+  :hook (prog-mode . company-mode)
   :custom
   (company-begin-commands '(self-insert-command))
   (company-idle-delay 0)
   (company-minimum-prefix-length 2)
-  (global-company-mode t)
+  (global-company-mode 1)
   (company-dabbrev-downcase 0)
   (company-async-wait 0.01)
   (company-async-timeout 1)
@@ -262,36 +283,41 @@
   (setq company-backends '((company-capf company-files))))
 
 (use-package lsp-mode
-  :commands lsp
-  :config
-  :hook (python-mode . lsp))
+  :defer t)
 
 (use-package lsp-pyright
+  :defer t
   :hook (python-mode . (lambda ()
 			 (require 'lsp-pyright)
 			 (lsp))))
 
+(use-package elpy
+  :defer t)
+
 (use-package python-black
+  :defer t
   :demand t
   :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
-
 (use-package pyvenv
-  :config
-  (pyvenv-mode 1))
+  :defer t
+  :hook (python-mode . pyvenv-mode))
 
 (use-package flycheck
   :defer t
   :hook (lsp-mode . flycheck-mode))
 
 (use-package diff-hl
+  :defer t
   :hook (prog-mode . diff-hl-mode))
 
-(use-package json-mode)
-(use-package yaml-mode)
-
+(use-package json-mode
+  :defer t)
+(use-package yaml-mode
+  :defer t)
  
 (use-package org
+  :defer t
   :hook (org-mode lambda ()
 				  (display-line-numbers-mode 0)
 				  (hl-line-mode 0))
@@ -308,22 +334,27 @@
 
 
 (use-package org-bullets
+  :defer t
   :hook (org-mode . org-bullets-mode))
 
-(use-package latex-preview-pane)
+(use-package latex-preview-pane
+  :defer t)
 
 (use-package visual-fill-column
-  :defer
   :hook (org-mode lambda ()
                   (setq visual-fill-column-width 100
                         visual-fill-column-center-text t)
                   (visual-fill-column-mode 1)))
   
+(use-package tree-sitter-langs
+  :defer t)
+
 (use-package tree-sitter
+  :defer t
   :hook (python-mode lambda ()
+                     (require 'tree-sitter-langs)
                      (tree-sitter-mode 1)
 					 (tree-sitter-hl-mode 1)))
-(use-package tree-sitter-langs)
 
 (use-package pdf-tools
   :defer t
@@ -336,9 +367,11 @@
   :config
   (smartparens-global-mode 1))
 
-(use-package treemacs)
+(use-package treemacs
+  :defer t)
 
 (use-package perspective
+  :defer t
   :init
   (persp-mode t))
 
@@ -353,26 +386,27 @@
 						  (bookmarks . 5)))
   (setq dashboard-footer-messages '(""))
   (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-init-info ""))
+  (setq dashboard-set-file-icons t))
 
 (use-package beacon
   :config
   (beacon-mode 1)
   (setq beacon-color "#3730d9"))
 
-(use-package org-jira)
+(use-package org-jira
+  :defer t)
 
 (use-package highlight-indent-guides
+  :defer t
   :config
-  (setq highlight-indent-guides-method 'column))
+  (setq highlight-indent-guides-method 'character))
 
 (use-package ace-window
+  :defer t
   :config
   (setq aw-dispatch-always t))
   ;; (setq aw-keys '(?j ?k ?l ?a ?s ?d ?h ?g)))
 
-(load "~/.emacs.d/modules/gcmh.el")
-(gcmh-mode 1)
+(use-package vterm)
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
