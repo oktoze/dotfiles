@@ -140,8 +140,12 @@
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
   (evil-set-initial-state 'dashboard-mode 'normal)
-  (define-key evil-normal-state-map (kbd "C-e") 'end-of-line)
-  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line))
+  (define-key evil-normal-state-map (kbd "C-a") 'evil-digit-argument-or-evil-beginning-of-line)
+  (define-key evil-visual-state-map (kbd "C-a") 'evil-digit-argument-or-evil-beginning-of-line)
+  (define-key evil-insert-state-map (kbd "C-a") 'evil-digit-argument-or-evil-beginning-of-line)
+  (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
+  (define-key evil-visual-state-map (kbd "C-e") 'evil-end-of-line)
+  (define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-line))
 
 (defun kz/alternate-dired-up-directory ()
   (interactive)
@@ -162,6 +166,7 @@
   :after evil
   :config
   (global-evil-surround-mode 1))
+
 
 (use-package evil-commentary
   :after evil
@@ -406,7 +411,3 @@
   :config
   (setq aw-dispatch-always t))
   ;; (setq aw-keys '(?j ?k ?l ?a ?s ?d ?h ?g)))
-
-(use-package vterm)
-
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
