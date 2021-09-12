@@ -214,13 +214,11 @@ exec_always feh --bg-fill $HOME/Pictures/wp.jpg
 exec_always $HOME/.config/polybar/launch.sh --shapes
 exec_always picom --config $HOME/.config/picom.conf
 exec_always dunst
-exec_always "~/.local/bin/i3alter"
+exec_always "xmodmap .Xmodmap"
+exec_always "i3alter"
 exec "setxkbmap us,ir -option grp:ctrls_toggle"
-exec "xmodmap .Xmodmap"
-exec "libinput-gestures-setup start"
 exec "kitty zsh -c 'matemux shell'"
 exec "emacs"
 exec "firefox"
 exec "dolphin"
 exec "copyq"
-exec "mpd ~/.config/mpd/mpd.conf"
