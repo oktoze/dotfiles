@@ -29,6 +29,8 @@
 (setq-default indent-tabs-mode nil)
 (put 'dired-find-alternate-file 'disabled nil)
 
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+
 ;; Get rid of annoying backup/autosave/lock files
 (setq create-lockfiles nil)
 (setq temporary-file-directory "~/.emacs.d/tmp/")
@@ -193,7 +195,7 @@
 
 (defun kz/projectile-switch-project-action ()
   (persp-switch (projectile-project-name))
-  (magit-status)
+  (when (vc-root-dir) (magit-status))
   (kz/enable-venv-from-pyrightconfig)
   (projectile-find-file))
 
@@ -288,13 +290,18 @@
   (setq company-backends '((company-capf company-files))))
 
 (use-package lsp-mode
-  :defer t)
+  :defer t
+  :hook ((python-mode go-mode) . lsp)
+  :commands lsp)
+
+(use-package lsp-ui
+  :defer t
+  :hook (lsp-mode . lsp-ui-mode))
 
 (use-package lsp-pyright
   :defer t
   :hook (python-mode . (lambda ()
-			 (require 'lsp-pyright)
-			 (lsp))))
+			 (require 'lsp-pyright))))
 
 (use-package elpy
   :defer t)
@@ -307,6 +314,15 @@
 (use-package pyvenv
   :defer t
   :hook (python-mode . pyvenv-mode))
+
+(defun kz/go-settings ()
+  (yas-minor-mode)
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet")))
+(add-hook 'go-mode-hook 'kz/go-settings)
 
 (use-package flycheck
   :defer t
