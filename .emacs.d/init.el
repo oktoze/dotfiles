@@ -308,12 +308,17 @@
 
 (use-package python-black
   :defer t
-  :demand t
-  :hook (python-mode . python-black-on-save-mode-enable-dwim))
+  :demand t)
 
 (use-package pyvenv
   :defer t
   :hook (python-mode . pyvenv-mode))
+
+(defun kz/python-settings ()
+  (python-black-on-save-mode-enable-dwim))
+  (add-hook 'before-save-hook 'pyimport-remove-unused)
+
+(add-hook 'python-mode-hook 'kz/python-settings)
 
 (defun kz/go-settings ()
   (yas-minor-mode)
