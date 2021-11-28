@@ -76,14 +76,19 @@
   (setq org-tag-alist '(("PERSONAL" . ?p) ("CODING" . ?c) ("PROJECTS" . ?h) ("EDUCATIONAL" . ?u)
         ("ENTERTAINMENT" . ?e) ("BOOKS" . ?b) ("MOVIES" . ?m) ("COURSES" . ?r) ("SKILLS" . ?s))))
 
-;; (add-hook! 'org-mode-hook lambda ()
-;;   (display-line-numbers-mode 0)
-;;   (visual-fill-column-mode 1)
-;;   (hl-line-mode 0)
-;;   (org-bullets-mode 1)
-;;   (setq visual-fill-column-width 100
-;;         visual-fill-column-center-text t))
+(use-package org-roam
+  :init
+  (setq org-roam-v2-ack t))
 
+(defun kz/org-mode ()
+  (display-line-numbers-mode 0)
+  (visual-fill-column-mode 1)
+  (hl-line-mode 0)
+  (org-bullets-mode 1)
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t))
+
+(add-hook! 'org-mode-hook 'kz/org-mode)
 
 (after! company
   (setq company-dabbrev-downcase 0)
@@ -93,10 +98,12 @@
   (setq company-async-timeout 1)
   (setq company-tooltip-limit 5))
 
-;; (add-hook! 'python-mode-hook lambda ()
-;;   ((tree-sitter-mode 1)
-;;    (tree-sitter-hl-mode 1)
-;;    (python-black-on-save-mode-enable-dwim)))
+(defun kz/python-mode ()
+  (tree-sitter-mode 1)
+  (tree-sitter-hl-mode 1)
+  (python-black-on-save-mode-enable-dwim))
+
+(add-hook! 'python-mode-hook 'kz/python-mode)
 
 (add-hook! 'projectile-before-switch-project-hook 'enable-venv-from-pyright)
 

@@ -56,3 +56,5 @@
 (package! dap-mode)
 (package! tree-sitter)
 (package! tree-sitter-langs)
+(package! blamer :recipe (:host github :repo "artawower/blamer.el"))
+(package! org-roam)
