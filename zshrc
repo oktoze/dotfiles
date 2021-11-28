@@ -29,7 +29,7 @@ export LC_ALL=en_US.UTF-8
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-alias vv="source ~/Projects/General/scripts/vv.sh"
+alias vv="source ~/Projects/General/stuff/vv.sh"
 
 export PATH=$PATH:~/.local/bin
 
@@ -51,3 +51,7 @@ export PATH=$PATH:~/.cargo/bin/
 
 # PostgreSQL
 export PGDATA=/var/lib/postgres/data/
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
