@@ -127,7 +127,7 @@
   (interactive)
   (execute-kbd-macro (concat "viwS" (char-to-string (read-char)))))
 
-(define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
+;; (define-key evil-visual-state-map (kbd "C-o") 'evil-go-to-norm-exec)
 (define-key evil-normal-state-map (kbd "\"")  'evil-surround-word)
 
 ;; Avy keymaps
@@ -146,12 +146,12 @@
 (define-key global-map (kbd "C-x c") #'calc)
 
 (defun dap-debug-custom () (interactive)
-       (if (file-exists-p (concat (projectile-project-root) "manage.py"))
+       (if (file-exists-p (concat (projectile-project-root) "src/manage.py"))
            (dap-debug (list :type "python"
                             :args '("runserver" "--noreload")
                             :cwd (projectile-project-root)
                             :console "integratedTerminal"
-                            :program (concat (projectile-project-root) "manage.py")
+                            :program (concat (projectile-project-root) "src/manage.py")
                             :request "launch"
                             :name "Django debug"
                             :debugOptions ["DebugStdLib" "ShowReturnValue" "RedirectOutput"]
@@ -163,3 +163,6 @@
       (when (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))
         (pyvenv-workon (cdr (assoc 'venv (json-read-file (concat (projectile-project-root) "pyrightconfig.json"))))))
     (pyvenv-deactivate)))
+
+;; load local packagews
+(load! "lisp/py-absolufy-imports.el")

@@ -58,3 +58,5 @@
 (package! tree-sitter-langs)
 (package! blamer :recipe (:host github :repo "artawower/blamer.el"))
 (package! org-roam)
+(package! elpy)
+(package! prettier)
