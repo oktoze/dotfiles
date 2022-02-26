@@ -80,6 +80,9 @@
   :init
   (setq org-roam-v2-ack t))
 
+(after! projectile
+ (setq projectile-project-search-path '("~/Projects")))
+
 (defun kz/org-mode ()
   (display-line-numbers-mode 0)
   (visual-fill-column-mode 1)
