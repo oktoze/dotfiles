@@ -4,7 +4,7 @@ setxkbmap us
 
 SCREENSHOT_PATH=~/.tmp/i3lock.png
 
-escrotum $SCREENSHOT_PATH
+maim $SCREENSHOT_PATH
 convert $SCREENSHOT_PATH -scale 5% -resize 2000% $SCREENSHOT_PATH
 i3lock -i $SCREENSHOT_PATH
 rm $SCREENSHOT_PATH
