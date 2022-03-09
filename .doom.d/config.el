@@ -101,6 +101,9 @@
   (setq company-async-timeout 1)
   (setq company-tooltip-limit 5))
 
+(after! persp-mode
+  (setq persp-add-buffer-on-after-change-major-mode-filter-functions nil))
+
 (defun kz/python-mode ()
   (tree-sitter-mode 1)
   (tree-sitter-hl-mode 1)

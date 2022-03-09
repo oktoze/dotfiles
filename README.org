@@ -11,6 +11,3 @@
 - 'config/polybar' Configuration for [[https://github.com/polybar/polybar][polybar]], an status-bar
 - 'config/libinput-gestures.conf' Configuration for [[https://github.com/bulletmark/libinput-gestures][libinput-gestures]], a touchpad gestures utility
 - 'config/picom.conf'  Configuration for [[https://github.com/yshui/picom][picom]], an X11 compositor
-
-** Credits
-My polybar configuration is a modification of the awesome [[https://github.com/adi1090x/polybar-themes][polybar-themes]], by [[https://github.com/adi1090x][Aditya Shakya]].

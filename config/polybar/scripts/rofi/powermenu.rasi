@@ -8,10 +8,10 @@
  */
 
 configuration {
-	font:							"Iosevka Nerd Font 10";
+	font:							"Fantasque Sans Mono 10";
     show-icons:                     true;
 	icon-theme: 					"Papirus";
-    display-drun: 					"";
+    display-drun: 					"";
     drun-display-format:            "{name}";
     disable-history:                false;
     fullscreen:                     false;
@@ -25,10 +25,10 @@ window {
     transparency:                   "real";
     background-color:               @bg;
     text-color:                     @fg;
-	border:							0px 0px 0px 0px;
+	border:							0px;
 	border-color:					@ac;
     border-radius:                  0px;
-	width:							350px;
+	width:							300px;
     location:                       center;
     x-offset:                       0;
     y-offset:                       0;
@@ -36,41 +36,42 @@ window {
 
 prompt {
     enabled: 						true;
-	padding: 						0px 0px 0px 5px;
-	background-color: 				@bga;
-	text-color: 					@fg;
+	padding: 						10px 15px 10px 15px;
+	background-color: 				@bg2;
+	text-color: 					#FFFFFF;
+	font:							"Iosevka Nerd Font 10";
 }
 
 textbox-prompt-colon {
-	padding: 						0px;
-	background-color: 				@bga;
-	text-color: 					@ac;
+	padding: 						10px 15px 10px 15px;
+	font:							"Iosevka Nerd Font 10";
+	background-color: 				@bg1;
+	text-color: 					#FFFFFF;
 	expand: false;
-	str: "";
-	font:							"feather 12";
+	str: "";
 }
 
 entry {
-    background-color:               @al;
-    text-color:                     @fg;
-    placeholder-color:              @fg;
+    background-color:               @bg3;
+    text-color:                     #FFFFFF;
+    placeholder-color:              #FFFFFF;
     expand:                         true;
     horizontal-align:               0;
     placeholder:                    "Search...";
-	padding: 						0px 0px 0px 10px;
+    padding:                        12px 10px 10px 10px;
+    margin:                         0px 250px 0px 0px;
     blink:                          true;
 }
 
 inputbar {
-	children: 						[ textbox-prompt-colon, entry ];
-    background-color:               @bga;
-    text-color:                     @fg;
+	children: 						[ textbox-prompt-colon, prompt ];
+    background-color:               @bg2;
+    text-color:                     #FFFFFF;
     expand:                         false;
-	border:							0px 0px 1px 0px;
+	border:							0px;
     border-radius:                  0px;
-	border-color:					@se;
-    margin:                         0px;
-    padding:                        10px;
+	border-color:					@ac;
+    spacing:                        0px;
 }
 
 listview {
@@ -88,10 +89,10 @@ mainbox {
     background-color:               @al;
 	border:							0px;
     border-radius:                  0px;
-	border-color:					@ac;
+	border-color:					@bg4;
     children:                       [ inputbar, listview ];
-    spacing:                       	5px;
-    padding:                        5px;
+    spacing:                       	0px;
+    padding:                        0px;
 }
 
 element {
@@ -99,15 +100,27 @@ element {
     text-color:                     @fg;
     orientation:                    horizontal;
     border-radius:                  0px;
-	padding: 						8px 8px 8px -20px;
+    padding:                        6px 6px 6px -16px;
 }
 
 element-icon {
+    background-color:               @al;
     size:                           24px;
     border:                         0px;
 }
 
 element-text {
+    text-color:                     @fg;
+    background-color:               @al;
+    expand:                         true;
+    horizontal-align:               0;
+    vertical-align:                 0.5;
+    margin:                         0px 2.5px 0px 2.5px;
+}
+
+element-text selected {
+    text-color:                     @fg;
+    background-color:               @al;
     expand:                         true;
     horizontal-align:               0;
     vertical-align:                 0.5;
@@ -115,9 +128,8 @@ element-text {
 }
 
 element selected {
-    background-color:               @se;
-    text-color:                     @bg;
-	border:							0px 0px 0px 0px;
+    background-color:               @bg4;
+	border:							0px;
     border-radius:                  0px;
-    border-color:                  	@ac;
+    border-color:                  	@bg;
 }
