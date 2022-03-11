@@ -217,7 +217,7 @@ exec_always  i3alter
 exec picom --config $HOME/.config/picom.conf
 exec greenclip daemon
 exec setxkbmap us,ir -option grp:ctrls_toggle
-exec kitty
+exec kitty tmux -u new-session -t main
 exec emacs
 exec firefox
 exec dolphin
