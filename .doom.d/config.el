@@ -58,12 +58,26 @@
 
 ;; font for arabic characters
 (set-fontset-font
-   "fontset-default"
-   (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
-   "Vazir Code")
+ "fontset-default"
+ (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
+ "Vazir Code")
 
 ;; make underlines a part of 'word'
 (modify-syntax-entry ?_ "w")
+
+;; prefer vertical split
+(setq split-width-threshold nil)
+
+;; dired config
+(put 'dired-find-alternate-file 'disabled nil)
+(defun kz/alternate-dired-up-directory ()
+  (interactive)
+  (find-alternate-file ".."))
+(after! evil-collection
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "H" 'kz/alternate-dired-up-directory
+    "L" 'dired-find-alternate-file))
+
 
 ;; Org-mode config
 (after! org
@@ -74,14 +88,14 @@
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "IN_PROGRESS(p)" "REPEAT(r)" "|" "DONE(d)" "CANCELED(c)")))
   (setq org-tag-alist '(("PERSONAL" . ?p) ("CODING" . ?c) ("PROJECTS" . ?h) ("EDUCATIONAL" . ?u)
-        ("ENTERTAINMENT" . ?e) ("BOOKS" . ?b) ("MOVIES" . ?m) ("COURSES" . ?r) ("SKILLS" . ?s))))
+                        ("ENTERTAINMENT" . ?e) ("BOOKS" . ?b) ("MOVIES" . ?m) ("COURSES" . ?r) ("SKILLS" . ?s))))
 
 (use-package org-roam
   :init
   (setq org-roam-v2-ack t))
 
 (after! projectile
- (setq projectile-project-search-path '("~/Projects")))
+  (setq projectile-project-search-path '("~/Projects")))
 
 (defun kz/org-mode ()
   (display-line-numbers-mode 0)
@@ -104,17 +118,41 @@
 (after! persp-mode
   (setq persp-add-buffer-on-after-change-major-mode-filter-functions nil))
 
+(after! docker
+  (setq docker-container-columns '((:name "Id" :width 16 :template "{{json .ID}}" :sort nil :format nil)
+                                   (:name "Names" :width 30 :template "{{json .Names}}" :sort nil :format nil)
+                                   (:name "Image" :width 30 :template "{{json .Image}}" :sort nil :format nil)
+                                   (:name "Status" :width 20 :template "{{json .Status}}" :sort nil :format
+                                    (lambda
+                                      (x)
+                                      (propertize x 'font-lock-face
+                                                  (docker-container-status-face x))))
+                                   (:name "Ports" :width 20 :template "{{json .Ports}}" :sort nil :format nil)
+                                   (:name "Created" :width 23 :template "{{json .CreatedAt}}" :sort nil :format
+                                    (lambda
+                                      (x)
+                                      (format-time-string "%F %T"
+                                                          (date-to-time x))))
+                                   (:name "Status" :width 20 :template "{{json .Status}}" :sort nil :format
+                                    (lambda
+                                      (x)
+                                      (propertize x 'font-lock-face
+                                                  (docker-container-status-face x)))))))
+
+
+(after! dap-mode
+  (require 'dap-python))
+
 (defun kz/python-mode ()
   (tree-sitter-mode 1)
   (tree-sitter-hl-mode 1)
   (python-black-on-save-mode-enable-dwim))
 
 (add-hook! 'python-mode-hook 'kz/python-mode)
-
 (add-hook! 'projectile-before-switch-project-hook 'enable-venv-from-pyright)
+(add-hook! 'shell-mode-hook '(lambda () (company-mode -1)))
+(add-hook! 'eshell-mode-hook '(lambda () (company-mode -1)))
 
-(after! dap-mode
-  (require 'dap-python))
 
 ;; general keymaps
 (define-key evil-normal-state-map (kbd "C-a") 'move-beginning-of-line)
