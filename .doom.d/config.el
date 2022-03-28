@@ -107,6 +107,9 @@
 
 (add-hook! 'org-mode-hook 'kz/org-mode)
 
+(after! marginalia
+  (setq marginalia-align 'right))
+
 (after! company
   (setq company-dabbrev-downcase 0)
   (setq company-idle-delay 0)
