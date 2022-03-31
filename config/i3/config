@@ -221,6 +221,7 @@ exec kitty tmux -u new-session -t main
 exec emacs
 exec firefox
 exec dolphin
+exec python $HOME/Projects/Python/polybar-telegram/telegram.py
 
 # Decoration colors
 # class                 border  backgr. text    indicator child_border
