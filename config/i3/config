@@ -210,7 +210,7 @@ bindsym $mod+shift+t exec xinput list | grep -i touchpad | rg 'id=[0-9]+' -o | r
 
 # Start up executions
 exec_always feh --bg-fill $HOME/Pictures/wp.jpg
-exec_always ~/.config/polybar/launch.sh
+exec_always $HOME/.config/polybar/launch.sh
 exec_always dunst
 exec_always xmodmap .Xmodmap
 exec_always  i3alter
