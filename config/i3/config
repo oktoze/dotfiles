@@ -198,7 +198,7 @@ bindsym $mod+Ctrl+s exec ~/.config/i3/i3lock.sh && systemctl suspend
 bindsym Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
 bindsym XF86AudioRaiseVolume exec amixer -q sset Master 5%+
 bindsym XF86AudioLowerVolume exec amixer -q sset Master 5%-
-bindsym XF86AudioMute exec amixer -q sset Master,0 toggle
+bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
 # bindsym XF86AudioPlay exec mpc toggle
 # bindsym XF86AudioNext exec mpc next
 # bindsym XF86AudioPrev exec mpc prev
