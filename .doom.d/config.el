@@ -85,10 +85,11 @@
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
+  (setq org-tags-column -80)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "IN_PROGRESS(p)" "REPEAT(r)" "|" "DONE(d)" "CANCELED(c)")))
   (setq org-tag-alist '(("PERSONAL" . ?p) ("CODING" . ?c) ("PROJECTS" . ?h) ("EDUCATIONAL" . ?u)
-                        ("ENTERTAINMENT" . ?e) ("BOOKS" . ?b) ("MOVIES" . ?m) ("COURSES" . ?r) ("SKILLS" . ?s))))
+                        ("ENTERTAINMENT" . ?e) ("BOOKS" . ?b) ("MOVIES" . ?m) ("COURSES" . ?r) ("SKILLS" . ?s) ("WORK" . ?w))))
 
 (use-package org-roam
   :init
@@ -106,6 +107,9 @@
         visual-fill-column-center-text t))
 
 (add-hook! 'org-mode-hook 'kz/org-mode)
+
+(after! dictionary
+  (setq dictionary-tooltip-dictionary "wikt-en-all"))
 
 (after! marginalia
   (setq marginalia-align 'right))
