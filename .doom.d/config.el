@@ -193,6 +193,15 @@
        :desc "Delete all breakpoints" "D" #'dap-breakpoint-delete-all
        :desc "Quit debugging" "q" #'dap-disconnect))
 
+(map! :leader
+      (:prefix-map ("o d" . "Dockerdock")
+      :desc "Start container" "s" #'dockerdock-start
+      :desc "Stop container" "S" #'dockerdock-stop
+      :desc "Restart container" "r" #'dockerdock-restart
+      :desc "Pause container" "p" #'dockerdock-pause
+      :desc "Unpause container" "P" #'dockerdock-unpause
+      :desc "Kill container" "k" #'dockerdock-kill))
+
 ;; calc
 (define-key global-map (kbd "C-x c") #'calc)
 
