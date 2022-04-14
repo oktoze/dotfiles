@@ -217,3 +217,4 @@
 
 ;; load local packagews
 (load! "lisp/py-absolufy-imports.el")
+(load! "lisp/dockerdock.el")

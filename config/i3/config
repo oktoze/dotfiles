@@ -36,7 +36,7 @@ bindsym $mod+q kill
 
 # Open rofi
 bindsym $mod+d exec --no-startup-id rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/scripts/rofi/launcher.rasi
-bindsym ctrl+space exec --no-startup-id rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/scripts/rofi/launcher.rasi
+# bindsym ctrl+space exec --no-startup-id rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/scripts/rofi/launcher.rasi
 bindsym $mod+Shift+d exec --no-startup-id rofi -no-config -no-lazy-grab -show emoji -modi drun -theme ~/.config/polybar/scripts/rofi/launcher.rasi
 bindsym $mod+c exec --no-startup-id rofi -no-config -no-lazy-grab -show clipboard -modi "clipboard:greenclip print" -theme ~/.config/polybar/scripts/rofi/launcher.rasi
 
