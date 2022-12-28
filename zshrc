@@ -56,3 +56,24 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 alias resolv="sudo cp ~/.resolv.conf /etc/resolv.conf"
+
+switch_to_laptop() {
+    cd ~/Projects/General/dotfiles
+    git switch master
+
+    cd /usr/lib/firefox
+    sed -i 's/pref("layout.css.devPixelsPerPx", "2.5")/pref("layout.css.devPixelsPerPx", "1")/' firefox.cfg
+
+    i3-msg restart
+}
+
+
+switch_to_monitor() {
+    cd ~/Projects/General/dotfiles
+    git switch 43-inch-4k-monitor
+
+    cd /usr/lib/firefox
+    sed -i 's/pref("layout.css.devPixelsPerPx", "1");/pref("layout.css.devPixelsPerPx", "2.5");/' firefox.cfg
+
+    i3-msg restart
+}
