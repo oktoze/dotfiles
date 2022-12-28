@@ -159,6 +159,11 @@
 (add-hook! 'projectile-before-switch-project-hook 'enable-venv-from-pyright)
 (add-hook! 'shell-mode-hook '(lambda () (company-mode -1)))
 (add-hook! 'eshell-mode-hook '(lambda () (company-mode -1)))
+(add-hook! 'typescript-mode '(lambda () (setq tab-width 2)))
+(add-hook! 'lsp-lua-language-server-after-open-hook '(lambda () (-> (lsp-workspaces) (cl-first)
+                                                                    (lsp--workspace-server-capabilities)
+                                                                    (lsp:server-capabilities-completion-provider?)
+                                                                    (lsp:set-completion-options-trigger-characters? ["." ":" "(" "'" "\"" "[" "," "#" "*" "@" "|" "=" "-" "{" " "]))))
 
 
 ;; general keymaps
@@ -205,10 +210,23 @@
 ;; calc
 (define-key global-map (kbd "C-x c") #'calc)
 
-(defun dap-debug-custom () (interactive)
+(defun dap-debug-django () (interactive)
        (if (file-exists-p (concat (projectile-project-root) "src/manage.py"))
            (dap-debug (list :type "python"
                             :args '("runserver" "--noreload")
+                            :cwd (projectile-project-root)
+                            :console "integratedTerminal"
+                            :program (concat (projectile-project-root) "src/manage.py")
+                            :request "launch"
+                            :name "Django debug"
+                            :debugOptions ["DebugStdLib" "ShowReturnValue" "RedirectOutput"]
+                            :django t))
+         (command-execute 'dap-debug)))
+
+(defun dap-debug-test () (interactive)
+       (if (file-exists-p (concat (projectile-project-root) "src/manage.py"))
+           (dap-debug (list :type "python"
+                            :args '("test" "tests.test_admin_global_preference.GlobalPreferenceTestCase.test_update_waap")
                             :cwd (projectile-project-root)
                             :console "integratedTerminal"
                             :program (concat (projectile-project-root) "src/manage.py")

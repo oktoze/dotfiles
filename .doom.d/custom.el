@@ -14,11 +14,13 @@
  '(jdee-db-requested-breakpoint-face-colors (cons "#222228" "#74DFC4"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#222228" "#4E415C"))
  '(objed-cursor-color "#964C7B")
- '(org-agenda-files '("~/Org/tasks.org" "/home/kamyab/todo.org"))
+ '(org-agenda-files
+   '("~/Org/megatoken.org" "/home/kamyab/Org/personal.org" "/home/kamyab/Org/digikala/digikala.org"))
  '(package-selected-packages '(py-absolufy-imports))
  '(pdf-view-midnight-colors (cons "#FFFFFF" "#27212E"))
  '(rustic-ansi-faces
    ["#27212E" "#964C7B" "#74DFC4" "#FFE261" "#40B4C4" "#EB64B9" "#B4DCE7" "#FFFFFF"])
+ '(sql-mysql-login-params '(user password server database port))
  '(vc-annotate-background "#27212E")
  '(vc-annotate-color-map
    (list
@@ -41,6 +43,11 @@
     (cons 340 "#544863")
     (cons 360 "#544863")))
  '(vc-annotate-very-old-color nil)
+ '(warning-suppress-types
+   '((doom-init-ui-hook)
+     (doom-init-ui-hook)
+     (lsp-mode)
+     (lsp-mode)))
  '(web-mode-code-indent-offset 2)
  '(web-mode-markup-indent-offset 2)
  '(which-key-idle-delay 0.3))
@@ -51,3 +58,4 @@
  ;; If there is more than one, they won't work right.
  )
 (put 'projectile-grep 'disabled nil)
+(put 'customize-group 'disabled nil)

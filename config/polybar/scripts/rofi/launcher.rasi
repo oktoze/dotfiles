@@ -8,9 +8,8 @@
  */
 
 configuration {
-	font:							"Fantasque Sans Mono 12";
+	font:							"Fantasque Sans Mono 10";
     show-icons:                     true;
-	icon-theme: 					"Papirus";
     display-drun: 					"";
     drun-display-format:            "{name}";
     disable-history:                false;
@@ -26,7 +25,7 @@ window {
     background-color:               @bg;
     text-color:                     @fg;
 	border:							0px;
-	border-color:					@ac;
+	border-color:					@al;
     border-radius:                  0px;
 	width:							550px;
     location:                       center;
@@ -62,7 +61,7 @@ inputbar {
     expand:                         false;
 	border:							0px;
     border-radius:                  0px;
-	border-color:					@ac;
+	border-color:					@al;
     spacing:                        0px;
 }
 

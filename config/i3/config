@@ -35,10 +35,12 @@ bindsym $mod+Return exec kitty
 bindsym $mod+q kill
 
 # Open rofi
-bindsym $mod+d exec --no-startup-id rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/scripts/rofi/launcher.rasi
+bindsym $mod+d exec --no-startup-id rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/scripts/rofi/dracula-config.rasi
 # bindsym ctrl+space exec --no-startup-id rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/scripts/rofi/launcher.rasi
-bindsym $mod+Shift+d exec --no-startup-id rofi -no-config -no-lazy-grab -show emoji -modi drun -theme ~/.config/polybar/scripts/rofi/launcher.rasi
-bindsym $mod+c exec --no-startup-id rofi -no-config -no-lazy-grab -show clipboard -modi "clipboard:greenclip print" -theme ~/.config/polybar/scripts/rofi/launcher.rasi
+bindsym $mod+Shift+d exec --no-startup-id rofi -no-config -no-lazy-grab -show emoji -modi drun -theme ~/.config/polybar/scripts/rofi/dracula-config.rasi
+bindsym $mod+c exec --no-startup-id rofi -no-config -no-lazy-grab -show clipboard -modi "clipboard:greenclip print" -theme ~/.config/polybar/scripts/rofi/dracula-config.rasi
+bindsym $mod+ctrl+c exec --no-startup-id rofi -no-config -no-lazy-grab -show calc -theme ~/.config/polybar/scripts/rofi/dracula-config.rasi
+bindsym $mod+ctrl+d exec --no-startup-id dicty
 
 # don't focus on hover
 focus_follows_mouse no
@@ -196,6 +198,7 @@ assign [class="qBittorrent"] $ws9
 bindsym $mod+Ctrl+l exec ~/.config/i3/i3lock.sh
 bindsym $mod+Ctrl+s exec ~/.config/i3/i3lock.sh && systemctl suspend
 bindsym Print exec --no-startup-id maim --select | xclip -selection clipboard -t image/png
+bindsym $mod+Print exec --no-startup-id maim ~/Pictures/$(date +sc%Y%m%d%H%M%S.jpg)
 bindsym XF86AudioRaiseVolume exec amixer -q sset Master 5%+
 bindsym XF86AudioLowerVolume exec amixer -q sset Master 5%-
 bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
