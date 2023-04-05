@@ -85,11 +85,9 @@
   (setq org-agenda-start-with-log-mode t)
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
-  (setq org-tags-column -80)
+  (setq org-tags-column -150)
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "IN_PROGRESS(p)" "REPEAT(r)" "|" "DONE(d)" "CANCELED(c)")))
-  (setq org-tag-alist '(("PERSONAL" . ?p) ("CODING" . ?c) ("PROJECTS" . ?h) ("EDUCATIONAL" . ?u)
-                        ("ENTERTAINMENT" . ?e) ("BOOKS" . ?b) ("MOVIES" . ?m) ("COURSES" . ?r) ("SKILLS" . ?s) ("WORK" . ?w))))
+        '((sequence "TODO(t)" "NEXT(n)" "IN_PROGRESS(p)" "REPEAT(r)" "|" "DONE(d)" "CANCELED(c)"))))
 
 (use-package org-roam
   :init
@@ -103,7 +101,7 @@
   (visual-fill-column-mode 1)
   (hl-line-mode 0)
   (org-bullets-mode 1)
-  (setq visual-fill-column-width 100
+  (setq visual-fill-column-width 150
         visual-fill-column-center-text t))
 
 (add-hook! 'org-mode-hook 'kz/org-mode)
@@ -165,10 +163,6 @@
 (add-hook! 'shell-mode-hook '(lambda () (company-mode -1)))
 (add-hook! 'eshell-mode-hook '(lambda () (company-mode -1)))
 (add-hook! 'typescript-mode '(lambda () (setq tab-width 2)))
-(add-hook! 'lsp-lua-language-server-after-open-hook '(lambda () (-> (lsp-workspaces) (cl-first)
-                                                                    (lsp--workspace-server-capabilities)
-                                                                    (lsp:server-capabilities-completion-provider?)
-                                                                    (lsp:set-completion-options-trigger-characters? ["." ":" "(" "'" "\"" "[" "," "#" "*" "@" "|" "=" "-" "{" " "]))))
 
 
 ;; general keymaps

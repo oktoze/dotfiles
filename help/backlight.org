@@ -3,6 +3,6 @@
 I use ~xbacklight~ for controlling backlight. By default, only root users can change backlight. To change this behavior, install ~rc-local~ packge and add these lines:
 
 #+BEGIN_SRC bash
-chgrp -R YOUR_GROUP_NAME /sys/class/backlight
-chmod g+w /sys/class/backlight/*/*
+sudo chgrp -R YOUR_GROUP_NAME /sys/class/backlight
+sudo chmod g+w /sys/class/backlight/*/*
 #+END_SRC
