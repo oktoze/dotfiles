@@ -225,6 +225,7 @@ exec emacs
 exec firefox
 exec dolphin
 exec python $HOME/Projects/Python/polybar-telegram/telegram.py
+exec xset -dpms s off
 
 # Decoration colors
 # class                 border  backgr. text    indicator child_border
