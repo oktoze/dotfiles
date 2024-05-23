@@ -177,13 +177,12 @@ bindsym mod1+Tab exec "false"
 bindsym mod1+Shift+Tab exec "false"
 
 # Gaps config
-gaps inner 5
+# gaps inner 5
 
 # Assigning apps to workspaces
 assign [class="Emacs"] $ws2
 assign [class="firefox"] $ws3
-assign [class="dolphin"] $ws4
-assign [class="okular"] $ws5
+assign [class="Thunar"] $ws4
 assign [class="Opera"] $ws6
 assign [class="Clementine"] $ws6
 assign [class="vlc"] $ws6
@@ -216,15 +215,15 @@ exec_always feh --bg-fill $HOME/Pictures/wp.jpg
 exec_always $HOME/.config/polybar/launch.sh
 exec_always dunst
 exec_always xmodmap .Xmodmap
-exec_always  i3alter
+exec_always i3alter
+exec_always sh $HOME/.config/i3/battery.sh
 exec picom --config $HOME/.config/picom.conf
 exec greenclip daemon
 exec setxkbmap us,ir -option grp:ctrls_toggle
 exec kitty tmux -u new-session -t main
 exec emacs
 exec firefox
-exec dolphin
-exec python $HOME/Projects/Python/polybar-telegram/telegram.py
+exec thunar
 exec xset -dpms s off
 
 # Decoration colors
