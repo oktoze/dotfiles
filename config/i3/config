@@ -183,6 +183,7 @@ bindsym mod1+Shift+Tab exec "false"
 assign [class="Emacs"] $ws2
 assign [class="firefox"] $ws3
 assign [class="Thunar"] $ws4
+assign [class="dolphin"] $ws4
 assign [class="Opera"] $ws6
 assign [class="Clementine"] $ws6
 assign [class="vlc"] $ws6
@@ -223,7 +224,7 @@ exec setxkbmap us,ir -option grp:ctrls_toggle
 exec kitty tmux -u new-session -t main
 exec emacs
 exec firefox
-exec thunar
+exec dolphin
 exec xset -dpms s off
 
 # Decoration colors

@@ -27,9 +27,13 @@
 (global-visual-line-mode 1)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (setq-default indent-tabs-mode nil)
-(put 'dired-find-alternate-file 'disabled nil)
+(setf dired-kill-when-opening-new-dired-buffer t)
+(set-frame-parameter nil 'alpha-background 90)
+(setq scroll-conservatively 1)
 
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+
+(load-file "~/.emacs.d/elisp/utils.el")
 
 ;; Get rid of annoying backup/autosave/lock files
 (setq create-lockfiles nil)
@@ -50,10 +54,6 @@
    (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
    "Vazir Code")
 
-;; use some doom modules
-(autoload 'doom/move-this-file "~/.emacs.d/modules/doom-functions.elc")
-(autoload 'doom/delete-this-file "~/.emacs.d/modules/doom-functions.elc")
-
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
@@ -70,6 +70,12 @@
 (setq use-package-always-ensure t)
 
 (use-package swiper)
+
+(use-package projectile
+  :demand t
+  :config (projectile-mode)
+  :init
+  (setq projectile-switch-project-action #'kz/projectile-switch-project-action))
 
 (use-package counsel
   :bind ("M-x" . counsel-M-x)
@@ -117,14 +123,45 @@
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t)
   (column-number-mode 1)
-  (load-theme 'doom-dracula t))
+  (load-theme 'doom-xcode t))
+
+(use-package beacon
+  :config
+  (beacon-mode 1)
+  (setq beacon-color "#3730d9"))
+
+(use-package highlight-indent-guides
+  :defer t
+  :config
+  (setq highlight-indent-guides-method 'character))
+
+(use-package ace-window
+  :defer t
+  :config
+  (setq aw-dispatch-always t))
+
+(use-package dashboard
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-center-content t)
+  (setq dashboard-startup-banner "~/Pictures/berserker.png")
+  (setq dashboard-banner-logo-title "The door to an another level of the Astral world has opened. Let us proceed.")
+  (setq dashboard-items '((projects . 5)
+						  (agenda . 5)
+						  (bookmarks . 5)))
+  (setq dashboard-footer-messages '(""))
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t))
+
 
 (use-package avy
   :defer t)
 
 (use-package undo-tree
   :init
-  (global-undo-tree-mode 1))
+  (global-undo-tree-mode 1)
+  :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/tmp/undo-tree/"))))
 
 (use-package evil
   :init
@@ -141,17 +178,7 @@
   (evil-global-set-key 'motion "j" 'evil-next-visual-line)
   (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
   (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal)
-  (define-key evil-normal-state-map (kbd "C-a") 'evil-digit-argument-or-evil-beginning-of-line)
-  (define-key evil-visual-state-map (kbd "C-a") 'evil-digit-argument-or-evil-beginning-of-line)
-  (define-key evil-insert-state-map (kbd "C-a") 'evil-digit-argument-or-evil-beginning-of-line)
-  (define-key evil-normal-state-map (kbd "C-e") 'evil-end-of-line)
-  (define-key evil-visual-state-map (kbd "C-e") 'evil-end-of-line)
-  (define-key evil-insert-state-map (kbd "C-e") 'evil-end-of-line))
-
-(defun kz/alternate-dired-up-directory ()
-  (interactive)
-  (find-alternate-file ".."))
+  (evil-set-initial-state 'dashboard-mode 'normal))
 
 (use-package evil-collection
   :after evil
@@ -160,8 +187,6 @@
   (evil-collection-init)
   :hook 'dired-mode lambda ()
     (evil-collection-define-key 'normal 'dired-mode-map
-      "h" 'kz/alternate-dired-up-directory
-      "l" 'dired-find-alternate-file
       (kbd "SPC") nil))
 
 (use-package evil-surround
@@ -175,8 +200,6 @@
   :init
   (evil-commentary-mode))
 
-(use-package evil-ediff)
-  
 (use-package magit
   :defer t
   :config
@@ -199,14 +222,9 @@
   (kz/enable-venv-from-pyrightconfig)
   (projectile-find-file))
 
-(use-package projectile
-  :demand t
-  :config (projectile-mode)
-  :init
-  (setq projectile-switch-project-action #'kz/projectile-switch-project-action))
-
 (defun kz/open-emacs-config ()
   (interactive)
+  (persp-switch "main")
   (find-file "~/.emacs.d/init.el"))
 
 (defun kz/evil-surround-word ()
@@ -232,9 +250,9 @@
     "hf" 'describe-function
     "hv" 'describe-variable
     "fs" 'save-buffer
+    "fR" 'kz/rename-visiting-file
+    "fD" 'kz/delete-visiting-file
     "ff" 'counsel-find-file
-	"fR" 'doom/move-this-file
-	"fD" 'doom/delete-this-file
     "pf" 'projectile-find-file
     "SPC" 'projectile-find-file
     "pa" 'projectile-add-known-project
@@ -243,19 +261,29 @@
     "pb" 'counsel-projectile-switch-to-buffer
     "bd" 'kill-current-buffer
     "bb" 'persp-counsel-switch-buffer
-	"br" 'revert-buffer
+    "bB" 'switch-to-buffer
+    "br" 'revert-buffer
     "gg" 'magit-status
     "gB" 'magit-blame-addition
-    "w" 'ace-window
-	"cr" 'lsp-rename
-	"cd" 'lsp-find-definition
-	"cR" 'lsp-find-references 
-	"``" 'persp-switch
-	"`n" 'persp-next
-	"`p" 'persp-prev
-	"`d" 'persp-kill
-	"/"  'kz/search-project)
-
+    "gff" 'magit-find-file
+    ;; "w"  'ace-window
+    "wh" 'evil-window-left
+    "wl" 'evil-window-right
+    "wj" 'evil-window-down
+    "wk" 'evil-window-up
+    "wd" 'evil-window-delete
+    "wv" 'evil-window-vsplit
+    "ws" 'evil-window-split
+    "ww" 'ace-window
+    "cr" 'lsp-rename
+    "cd" 'lsp-find-definition
+    "cR" 'lsp-find-references 
+    "cf" 'kz/format
+    "``" 'kz/persp-switch-by-number
+    "`n" 'persp-next
+    "`p" 'persp-prev
+    "`d" 'persp-kill
+    "/"  'kz/search-project)
   (general-imap "j"
 	(general-key-dispatch 'self-insert-command
 	  "k" 'evil-normal-state))
@@ -291,7 +319,7 @@
 
 (use-package lsp-mode
   :defer t
-  :hook ((python-mode go-mode) . lsp)
+  :hook ((python-mode go-mode lua-mode) . lsp)
   :commands lsp)
 
 (use-package lsp-ui
@@ -302,6 +330,10 @@
   :defer t
   :hook (python-mode . (lambda ()
 			 (require 'lsp-pyright))))
+
+(use-package lua-mode)
+
+(use-package go-mode)
 
 (use-package elpy
   :defer t)
@@ -316,7 +348,6 @@
 
 (defun kz/python-settings ()
   (python-black-on-save-mode-enable-dwim))
-  (add-hook 'before-save-hook 'pyimport-remove-unused)
 
 (add-hook 'python-mode-hook 'kz/python-settings)
 
@@ -380,7 +411,7 @@
   :hook (python-mode lambda ()
                      (require 'tree-sitter-langs)
                      (tree-sitter-mode 1)
-					 (tree-sitter-hl-mode 1)))
+                     (tree-sitter-hl-mode 1)))
 
 (use-package pdf-tools
   :defer t
@@ -393,42 +424,38 @@
   :config
   (smartparens-global-mode 1))
 
-(use-package treemacs
-  :defer t)
-
 (use-package perspective
   :defer t
   :init
-  (persp-mode t))
-
-(use-package dashboard
+  (persp-mode t)
+  :custom
+  (persp-mode-prefix-key (kbd "C-c M-p"))
   :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-center-content t)
-  (setq dashboard-startup-banner "~/Pictures/berserker-small.png")
-  (setq dashboard-banner-logo-title "The door to an another level of the Astral world has opened. Let us proceed.")
-  (setq dashboard-items '((projects . 5)
-						  (agenda . 5)
-						  (bookmarks . 5)))
-  (setq dashboard-footer-messages '(""))
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t))
+  (setq persp-sort 'created))
 
-(use-package beacon
-  :config
-  (beacon-mode 1)
-  (setq beacon-color "#3730d9"))
+(use-package docker
+  :ensure t)
 
-(use-package org-jira
-  :defer t)
+(require 'reformatter)
+(reformatter-define lua-format
+  :program "lua-format"
+  :args (kz/lua-format--make-args)
+  :lighter " LuaFMT")
+(defun kz/lua-format--make-args ()
+    (let ((format-file (concat (projectile-project-root) ".lua-format")))
+      (if (file-exists-p format-file) '(concat "-i --config=" format-file)
+        '("-i"))))
 
-(use-package highlight-indent-guides
-  :defer t
-  :config
-  (setq highlight-indent-guides-method 'character))
+(defun kz/format()
+  (interactive)
+  (when (eq major-mode 'python-mode)
+    (if (eq evil-state 'visual)
+        (python-black-region evil-visual-beginning evil-visual-end)
+      (python-black-buffer)))
+  (when (eq major-mode 'lua-mode) (lua-format-buffer)))
 
-(use-package ace-window
-  :defer t
-  :config
-  (setq aw-dispatch-always t))
-  ;; (setq aw-keys '(?j ?k ?l ?a ?s ?d ?h ?g)))
+(defun kz/persp-switch-by-number ()
+  (interactive)
+  (persp-switch-by-number (string-to-number (char-to-string (read-char "Switch to persp number:")))))
+
+(load-file "~/.emacs.d/elisp/overrides.el")
