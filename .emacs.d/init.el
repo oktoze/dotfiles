@@ -238,12 +238,12 @@
 (use-package general
   :config
   (general-evil-setup t)
+
   (general-create-definer kz/leader-key
     :keymaps '(normal visual emacs)
     :prefix "SPC")
 
   (kz/leader-key
-    "TAB" 'mode-line-other-buffer
     "a" 'avy-goto-word-0
     "fp" 'kz/open-emacs-config
     "hk" 'describe-key
@@ -279,11 +279,29 @@
     "cd" 'lsp-find-definition
     "cR" 'lsp-find-references 
     "cf" 'kz/format
-    "``" 'kz/persp-switch-by-number
-    "`n" 'persp-next
-    "`p" 'persp-prev
-    "`d" 'persp-kill
     "/"  'kz/search-project)
+
+  (general-create-definer kz/persp-leader
+    :keymaps '(normal)
+    :prefix "SPC TAB")
+
+  (kz/persp-leader
+    "d" 'persp-kill
+    "n" 'persp-next
+    "p" 'persp-prev
+    "R" 'persp-rename
+    "s" 'persp-switch-to-scratch-buffer
+    "1" (lambda () (interactive) (persp-switch-by-number 1))
+    "2" (lambda () (interactive) (persp-switch-by-number 2))
+    "3" (lambda () (interactive) (persp-switch-by-number 3))
+    "4" (lambda () (interactive) (persp-switch-by-number 4))
+    "5" (lambda () (interactive) (persp-switch-by-number 5))
+    "6" (lambda () (interactive) (persp-switch-by-number 6))
+    "7" (lambda () (interactive) (persp-switch-by-number 7))
+    "8" (lambda () (interactive) (persp-switch-by-number 8))
+    "9" (lambda () (interactive) (persp-switch-by-number 9))
+    "0" (lambda () (interactive) (persp-switch-by-number 0)))
+
   (general-imap "j"
 	(general-key-dispatch 'self-insert-command
 	  "k" 'evil-normal-state))
@@ -453,9 +471,5 @@
         (python-black-region evil-visual-beginning evil-visual-end)
       (python-black-buffer)))
   (when (eq major-mode 'lua-mode) (lua-format-buffer)))
-
-(defun kz/persp-switch-by-number ()
-  (interactive)
-  (persp-switch-by-number (string-to-number (char-to-string (read-char "Switch to persp number:")))))
 
 (load-file "~/.emacs.d/elisp/overrides.el")
