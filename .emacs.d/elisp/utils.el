@@ -20,4 +20,17 @@
       (find-file new-file-name)
       (message (concat "Renamed to: " new-file-name)))))
 
-
+(defun kz/get-beg-end-between-lines (rx1 rx2)
+  (let ((beg (progn 
+               (goto-char (point-min))
+               (search-forward-regexp rx1)
+               (next-line)
+               (beginning-of-line)
+               (point)))
+        (end (progn
+               (goto-char (point-min))
+               (search-forward-regexp rx2)
+               (previous-line)
+               (end-of-line)
+               (point))))
+    (list beg end)))

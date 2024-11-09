@@ -30,6 +30,8 @@
 (setf dired-kill-when-opening-new-dired-buffer t)
 (set-frame-parameter nil 'alpha-background 90)
 (setq scroll-conservatively 1)
+(fset 'yes-or-no-p 'y-or-n-p)
+(advice-add 'risky-local-variable-p :override #'ignore)
 
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
@@ -53,6 +55,9 @@
    "fontset-default"
    (cons (decode-char 'ucs #x0600) (decode-char 'ucs #x06ff)) ; arabic
    "Vazir Code")
+
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
@@ -85,18 +90,11 @@
 (use-package prescient
   :config
   (prescient-persist-mode 1))
-(use-package ivy-prescient
-  :after ivy
-  :config
-  (ivy-prescient-mode 1))
+
 (use-package company-prescient
   :after company
   :config
   (company-prescient-mode 1))
-
-(use-package all-the-icons-ivy
-  :config
-  (all-the-icons-ivy-setup))
 
 (use-package ivy
   :diminish
@@ -115,6 +113,21 @@
   :config
   (ivy-mode 1)
   (add-to-list 'ivy-initial-inputs-alist '(counsel-M-x . "")))
+
+(use-package ivy-prescient
+  :after ivy
+  :config
+  (ivy-prescient-mode 1))
+
+(use-package marginalia
+  :config
+  (setq marginalia-align 'right)
+  :init
+  (marginalia-mode))
+
+(use-package savehist
+  :init
+  (savehist-mode))
 
 (use-package doom-modeline
   :init (doom-modeline-mode 1))
@@ -145,7 +158,7 @@
   (dashboard-setup-startup-hook)
   (setq dashboard-center-content t)
   (setq dashboard-startup-banner "~/Pictures/berserker.png")
-  (setq dashboard-banner-logo-title "The door to an another level of the Astral world has opened. Let us proceed.")
+  (setq dashboard-banner-logo-title "")
   (setq dashboard-items '((projects . 5)
 						  (agenda . 5)
 						  (bookmarks . 5)))
@@ -206,6 +219,7 @@
   (setq magit-display-buffer-function
 	(lambda (buffer)
 	  (display-buffer buffer '(display-buffer-same-window))))
+  (setq magit-commit-show-diff nil)
   (with-eval-after-load 'magit-status
 	(define-key magit-status-mode-map (kbd "SPC") nil)))
 
@@ -239,53 +253,61 @@
   :config
   (general-evil-setup t)
 
-  (general-create-definer kz/leader-key
-    :keymaps '(normal visual emacs)
+  (general-create-definer kz/leader-define-key
+    :states '(normal visual emacs)
     :prefix "SPC")
 
-  (kz/leader-key
-    "a" 'avy-goto-word-0
-    "fp" 'kz/open-emacs-config
-    "hk" 'describe-key
-    "hf" 'describe-function
-    "hv" 'describe-variable
-    "fs" 'save-buffer
-    "fR" 'kz/rename-visiting-file
-    "fD" 'kz/delete-visiting-file
-    "ff" 'counsel-find-file
-    "pf" 'projectile-find-file
+  (kz/leader-define-key
+    "`" 'mode-line-other-buffer
+    "/"  'kz/search-project
     "SPC" 'projectile-find-file
-    "pa" 'projectile-add-known-project
-    "pp" 'projectile-switch-project
-    "pd" 'projectile-dired
-    "pb" 'counsel-projectile-switch-to-buffer
-    "bd" 'kill-current-buffer
-    "bb" 'persp-counsel-switch-buffer
+    "a" 'avy-goto-word-0
     "bB" 'switch-to-buffer
+    "bb" 'persp-counsel-switch-buffer
+    "bd" 'kill-current-buffer
     "br" 'revert-buffer
-    "gg" 'magit-status
+    "cf" 'kz/format
+    "dS" 'kz/docker-project-stop-container
+    "dr" 'kz/docker-project-restart-container
+    "ds" 'kz/docker-project-start-container
+    "daS" 'kz/docker-stop-container
+    "dar" 'kz/docker-restart-container
+    "das" 'kz/docker-start-container
+    "dd" 'docker
+    "dc" 'docker-compose
+    "fD" 'kz/delete-visiting-file
+    "fR" 'kz/rename-visiting-file
+    "ff" 'counsel-find-file
+    "fp" 'kz/open-emacs-config
+    "fs" 'save-buffer
     "gB" 'magit-blame-addition
+    "gdf" 'kz/magit-diff-file
     "gff" 'magit-find-file
-    ;; "w"  'ace-window
+    "gg" 'magit-status
+    "hf" 'describe-function
+    "hk" 'describe-key
+    "hv" 'describe-variable
+    "pa" 'projectile-add-known-project
+    "pb" 'counsel-projectile-switch-to-buffer
+    "pd" 'projectile-dired
+    "pf" 'projectile-find-file
+    "pF" 'projectile-find-file-other-window
+    "pi" 'projectile-invalidate-cache
+    "pp" 'projectile-switch-project
+    "wd" 'evil-window-delete
     "wh" 'evil-window-left
-    "wl" 'evil-window-right
     "wj" 'evil-window-down
     "wk" 'evil-window-up
-    "wd" 'evil-window-delete
-    "wv" 'evil-window-vsplit
+    "wl" 'evil-window-right
     "ws" 'evil-window-split
-    "ww" 'ace-window
-    "cr" 'lsp-rename
-    "cd" 'lsp-find-definition
-    "cR" 'lsp-find-references 
-    "cf" 'kz/format
-    "/"  'kz/search-project)
+    "wv" 'evil-window-vsplit
+    "ww" 'ace-window)
 
-  (general-create-definer kz/persp-leader
-    :keymaps '(normal)
+  (general-create-definer kz/persp-define-key
+    :states '(normal)
     :prefix "SPC TAB")
 
-  (kz/persp-leader
+  (kz/persp-define-key
     "d" 'persp-kill
     "n" 'persp-next
     "p" 'persp-prev
@@ -308,7 +330,27 @@
 
   (general-define-key
    :keymaps 'evil-normal-state-map
-   "\"" 'kz/evil-surround-word))
+   "\"" 'kz/evil-surround-word)
+
+  (general-create-definer kz/lsp-mode-define-key
+    :states '(normal)
+    :keymaps 'lsp-mode-map
+    :prefix "SPC c")
+
+  (kz/lsp-mode-define-key
+    "r" 'lsp-rename
+    "d" 'lsp-find-definition
+    "R" 'lsp-find-references)
+
+  (general-create-definer kz/python-mode-define-key
+    :states '(normal)
+    :keymaps 'python-mode-map
+    :prefix "SPC c")
+
+  (kz/python-mode-define-key
+    "tt" 'python-pytest-run-def-or-class-at-point
+    "tf" 'python-pytest-file
+    "ta" 'python-pytest))
 
 (use-package which-key
   :init
@@ -353,6 +395,8 @@
 
 (use-package go-mode)
 
+(use-package dockerfile-mode)
+
 (use-package elpy
   :defer t)
 
@@ -363,6 +407,8 @@
 (use-package pyvenv
   :defer t
   :hook (python-mode . pyvenv-mode))
+
+(use-package python-pytest)
 
 (defun kz/python-settings ()
   (python-black-on-save-mode-enable-dwim))
@@ -393,19 +439,24 @@
  
 (use-package org
   :defer t
+  :init 
+  (require 'ob-python)
   :hook (org-mode lambda ()
 				  (display-line-numbers-mode 0)
 				  (hl-line-mode 0))
   :config
   (setq org-directory "~/Org/")
   (setq org-ellipsis " ▼")
+  (setq org-startup-folded 'showall)
+  (setq org-hide-block-startup t)
   (setq org-agenda-start-with-log-mode t)
+  (setq org-edit-src-content-indentation 0)
   (setq org-log-done 'time)
   (setq org-log-into-drawer t)
   (setq org-todo-keywords
         '((sequence "TODO(t)" "NEXT(n)" "IN_PROGRESS(p)" "REPEAT(r)" "|" "DONE(d)" "CANCELED(c)")))
   (setq org-tag-alist '(("PERSONAL" . ?p) ("CODING" . ?c) ("PROJECTS" . ?h) ("EDUCATIONAL" . ?u)
-        ("ENTERTAINMENT" . ?e) ("BOOKS" . ?b) ("MOVIES" . ?m) ("COURSES" . ?r) ("SKILLS" . ?s))))
+                        ("ENTERTAINMENT" . ?e) ("BOOKS" . ?b) ("MOVIES" . ?m) ("COURSES" . ?r) ("SKILLS" . ?s))))
 
 
 (use-package org-bullets
@@ -472,4 +523,11 @@
       (python-black-buffer)))
   (when (eq major-mode 'lua-mode) (lua-format-buffer)))
 
+(defun kz/magit-diff-file ()
+  (interactive)
+  (let ((current (current-buffer))
+        (other (magit-find-file-other-window (completing-read "from revision: " (magit-list-refnames)) (buffer-file-name))))
+    (ediff-buffers current other)))
+
 (load-file "~/.emacs.d/elisp/overrides.el")
+(load-file "~/.emacs.d/elisp/docker.el")
