@@ -30,7 +30,10 @@
 (setf dired-kill-when-opening-new-dired-buffer t)
 (set-frame-parameter nil 'alpha-background 90)
 (setq scroll-conservatively 1)
-(fset 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
+(setq confirm-nonexistent-file-or-buffer nil)
+(setq delete-by-moving-to-trash t)
+(toggle-truncate-lines)
 (advice-add 'risky-local-variable-p :override #'ignore)
 
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -59,6 +62,19 @@
 (setq ediff-split-window-function 'split-window-horizontally)
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; window layout settings ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq switch-to-buffer-obey-display-actions t)
+(setq switch-to-buffer-in-dedicated-window 'pop)
+(setq display-buffer-alist nil)
+(setq help-window-select t)
+(add-to-list 'display-buffer-alist
+             '("\\*help\\*\\|\\*pytest\\*"
+               (display-buffer-reuse-window display-buffer-at-bottom)
+               (window-height . 0.25 )))
+
+
 (require 'package)
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
@@ -73,6 +89,8 @@
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-ensure t)
+
+(use-package dash)
 
 (use-package swiper)
 
@@ -136,7 +154,7 @@
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t)
   (column-number-mode 1)
-  (load-theme 'doom-xcode t))
+  (load-theme 'doom-xcode))
 
 (use-package beacon
   :config
@@ -299,8 +317,10 @@
     "wj" 'evil-window-down
     "wk" 'evil-window-up
     "wl" 'evil-window-right
-    "ws" 'evil-window-split
-    "wv" 'evil-window-vsplit
+    "ws" 'split-window-below
+    "wv" 'split-window-right
+    "wS" 'kz/split-window-below-all
+    "wV" 'kz/split-window-right-all
     "ww" 'ace-window)
 
   (general-create-definer kz/persp-define-key
@@ -386,16 +406,19 @@
   :defer t
   :hook (lsp-mode . lsp-ui-mode))
 
-(use-package lsp-pyright
-  :defer t
-  :hook (python-mode . (lambda ()
-			 (require 'lsp-pyright))))
-
-(use-package lua-mode)
+(use-package lua-mode
+  :config
+  (setq lua-indent-level 4))
 
 (use-package go-mode)
 
+(use-package vue-mode
+  :config
+  (setq js-indent-level 2))
+
 (use-package dockerfile-mode)
+
+(use-package restclient)
 
 (use-package elpy
   :defer t)
@@ -472,12 +495,9 @@
                         visual-fill-column-center-text t)
                   (visual-fill-column-mode 1)))
   
-(use-package tree-sitter-langs
-  :defer t)
-
 (use-package tree-sitter
   :defer t
-  :hook (python-mode lambda ()
+  :hook (prog-mode lambda ()
                      (require 'tree-sitter-langs)
                      (tree-sitter-mode 1)
                      (tree-sitter-hl-mode 1)))
